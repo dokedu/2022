@@ -1,3 +1,6 @@
+> **Note**
+> Step by step we will make Dokedu open Source
+
 # Dokedu
 
 A simple tool that helps educators efficiently manage and assess learning progress. 
@@ -6,4 +9,4 @@ A simple tool that helps educators efficiently manage and assess learning progre
 
 <br />
 
-© 2017-2023, Dokedu UG (haftungsbeschränkt)
+© 2019-2023, Dokedu UG (haftungsbeschränkt)

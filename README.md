@@ -1,5 +1,5 @@
 > **Note**
-> Step by step we will make Dokedu open Source
+> Step by step we will make Dokedu open source
 
 # Dokedu
 

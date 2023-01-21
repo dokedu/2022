@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "types/**/*.ts",
+    "../../seeds/**/*.ts",
+  ]
+}

@@ -1,0 +1,84 @@
+openapi: 3.1.0
+info:
+  title: dokedu backend
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /auth/invite:
+    post:
+      summary: Invite user
+      operationId: post-auth-invite
+      responses:
+        '200':
+          description: OK
+      security:
+        - Authorization: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                email:
+                  type: string
+                  format: email
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                organisation_id:
+                  type: string
+                role:
+                  type: string
+                  enum:
+                    - admin
+                    - teacher
+                    - teacher_guest
+              required:
+                - email
+                - first_name
+                - last_name
+                - organisation_id
+                - role
+  /meili/reset:
+    post:
+      summary: Reset meili search
+      operationId: post-meili-reset
+      responses:
+        '200':
+          description: OK
+      description: re-generates the meili serach db
+      security:
+        - Authorization: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: organisation_id
+          required: true
+  '/meili/indexes/{id}/search':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: organisation id
+    post:
+      summary: MeiliSearch
+      operationId: post-meili-indexes-id-search
+      responses:
+        '200':
+          description: OK
+      security:
+        - Authorization: []
+      description: 'for body see https://docs.meilisearch.com/reference/api/search.html#search'
+components:
+  schemas: {}
+  securitySchemes:
+    Authorization:
+      name: Authorization
+      type: apiKey
+      in: header

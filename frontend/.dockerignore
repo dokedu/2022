@@ -1,0 +1,6 @@
+cypress/
+node_modules/
+dist/
+.git/
+.idea/
+Dockerfile

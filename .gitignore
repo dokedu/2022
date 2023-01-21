@@ -1,0 +1,5 @@
+.idea/
+**/*/node_modules/
+docker/tmp/
+.nuxt
+.env

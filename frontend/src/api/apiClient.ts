@@ -9,14 +9,21 @@ export default class ApiClient extends SupabaseClient {
     Object.assign(this, supabase)
   }
 
-  private getHeaders() {
+  private async getAccessToken(): Promise<string> {
+    const session = await this.auth.getSession()
+    if (session.error || !session.data.session) throw new Error('invalid session')
+    return session.data.session.access_token
+  }
+
+  private async getHeaders() {
+
     return {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       apikey: this.supabaseKey,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      Authorization: `Bearer ${this.auth.currentSession?.access_token}`,
+      Authorization: `Bearer ${await this.getAccessToken()}`,
     }
   }
 
@@ -29,7 +36,7 @@ export default class ApiClient extends SupabaseClient {
             `${this.supabaseUrl}/backend/meili/reset?organisation_id=${orgId}`,
             {},
             {
-              headers: this.getHeaders(),
+              headers: await this.getHeaders(),
             },
           )
         ).data,
@@ -57,7 +64,7 @@ export default class ApiClient extends SupabaseClient {
               ...options,
             },
             {
-              headers: this.getHeaders(),
+              headers: await this.getHeaders(),
             },
           )
         ).data,
@@ -76,7 +83,7 @@ export default class ApiClient extends SupabaseClient {
             `${this.supabaseUrl}/backend/auth/init_account`,
             {},
             {
-              headers: this.getHeaders(),
+              headers: await this.getHeaders(),
             },
           )
         ).data,
@@ -95,7 +102,7 @@ export default class ApiClient extends SupabaseClient {
             `${this.supabaseUrl}/backend/auth/init_identity`,
             {},
             {
-              headers: this.getHeaders(),
+              headers: await this.getHeaders(),
             },
           )
         ).data,
@@ -120,7 +127,7 @@ export default class ApiClient extends SupabaseClient {
               ...user,
             },
             {
-              headers: this.getHeaders(),
+              headers: await this.getHeaders(),
             },
           )
         ).data,

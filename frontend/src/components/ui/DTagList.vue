@@ -50,7 +50,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'add'],
   setup(props, { emit }) {
-    const fetchTags = () => supabase.from('tags').select('*').order('name', { ascending: true })
+    const fetchTags = () => supabase.from('tags').select('*').eq('organisation_id', getOrganisationId()).order('name', { ascending: true })
     const { data: tagsAvailable } = useSWRVS<Tag[]>(`/tags`, fetchTags(), {
       revalidateOnFocus: false,
     })

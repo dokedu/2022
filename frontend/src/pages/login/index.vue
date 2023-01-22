@@ -9,13 +9,10 @@
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="rounded-lg bg-white py-8 px-4 shadow sm:px-10">
         <form class="space-y-6" @submit.prevent="login">
-          <div class="rounded-md border-2 border-orange-300 bg-orange-100 px-4 py-2 text-orange-900">
-            Achtung: Dies ist eine Testumgebung
-          </div>
           <div>
             <label for="email" class="block text-sm font-medium text-slate-700">E-Mail Adresse</label>
             <div class="mt-1">
-              <input id="email" v-model="email" name="email" type="email" autocomplete="email" required=""
+              <input id="email" v-model="email" name="email" type="email" autocomplete="email" required
                 placeholder="Deine E-Mail Adresse"
                 class="block w-full appearance-none rounded-lg border border-slate-200 px-3 py-2 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm" />
             </div>
@@ -25,7 +22,7 @@
             <label for="password" class="block text-sm font-medium text-slate-700">Passwort</label>
             <div class="mt-1">
               <input id="password" v-model="password" name="password" type="password" autocomplete="current-password"
-                required="" placeholder="Dein Passwort"
+                required placeholder="Dein Passwort"
                 class="block w-full appearance-none rounded-lg border border-slate-200 px-3 py-2 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm" />
             </div>
           </div>
@@ -42,7 +39,7 @@
                 class="font-medium text-blue-600 hover:text-blue-500">Passwort vergessen?</router-link>
             </div>
           </div>
-          <div v-show="errorMsg?.length > 0" data-cy="errorMsg" class="text-sm font-medium text-red-500">
+          <div v-show="errorMsg && errorMsg?.length > 0" data-cy="errorMsg" class="text-sm font-medium text-red-500">
             {{ errorMsg }}
           </div>
         </form>

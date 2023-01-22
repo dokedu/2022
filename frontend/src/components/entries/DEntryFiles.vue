@@ -18,15 +18,13 @@
 
 <script lang="ts" setup>
 import DModal from '../ui/DModal.vue'
-import DButton from '../ui/DButton.vue'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import supabase from '../../api/supabase'
 import { nanoid } from 'nanoid'
 import { useEntryStore } from '../../store/entry'
 import IconX from '../icons/IconX.vue'
 import { decodeFileName, encodeFileName } from '../../helper/entryFiles'
 import { getOrganisationId } from '../../helper/general'
-import DIcon from '../ui/DIcon.vue'
 
 const entryStore = useEntryStore()
 const open = computed({

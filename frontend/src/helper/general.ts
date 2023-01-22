@@ -1,3 +1,4 @@
+import { EntryFile } from '../../../backend/test/types';
 import supabase from '../api/supabase'
 
 export const downloadFile = async (file: { id: string; file_bucket_id: string; file_name: string }) => {
@@ -13,6 +14,18 @@ const downloadItem = async (blobData: any, label: string) => {
   link.download = label
   link.click()
   URL.revokeObjectURL(link.href)
+}
+
+export const previewImage = async (file: EntryFile) => {
+  return (await supabase
+    .storage
+    .from(file.file_bucket_id)
+    .createSignedUrl(file.file_name, 60, {
+      transform: {
+        width: 300,
+        height: 200,
+      }
+    })).data?.signedUrl
 }
 
 /**

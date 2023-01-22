@@ -8,7 +8,7 @@
       <DFilterTags v-model="currentTags" label="Tags"></DFilterTags>
     </div>
     <div class="flex space-x-2">
-      <div class="flex flex-col">
+      <div class="flex flex-col" v-if="false">
         <label for="search" class="mb-1 text-xs font-medium text-slate-500">Suche</label>
         <input id="search" v-model="filters.search" type="text" placeholder="Suche"
           class="rounded-lg border-slate-300 py-1.5 px-3 text-sm shadow-sm" />

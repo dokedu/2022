@@ -79,6 +79,7 @@ import { useStore } from '../../store/store'
 import DInput from '../ui/DInput.vue'
 import * as yup from 'yup'
 import { useForm } from 'vee-validate'
+import { getOrganisationId } from 'src/helper/general'
 
 export default {
   components: {
@@ -128,7 +129,7 @@ export default {
         .eq('entry_id', entryId)
 
     const fetchEntryTags = (entryId: string) =>
-      supabase.from('entry_tags').select('*, tag:tag_id(*)').eq('entry_id', entryId)
+      supabase.from('entry_tags').select('*, tag:tag_id(*)').eq('organisation_id', getOrganisationId()).eq('entry_id', entryId)
 
     // if there is an id, fetch the existing entry and populate the store
     if (props.id) {

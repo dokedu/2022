@@ -79,7 +79,7 @@ import { useStore } from '../../store/store'
 import DInput from '../ui/DInput.vue'
 import * as yup from 'yup'
 import { useForm } from 'vee-validate'
-import { getOrganisationId } from 'src/helper/general'
+import { getOrganisationId } from '../../helper/general'
 
 export default {
   components: {

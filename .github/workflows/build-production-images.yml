@@ -39,7 +39,7 @@ jobs:
           build-args: |
             VITE_FRONTEND_URL=https://app.dokedu.org
             VITE_SUPABASE_URL=https://api.dokedu.org
-            VITE_SUPABASE_ANON=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjcyNzg2ODAwLAogICAgImV4cCI6IDE4MzA1NTMyMDAKfQ.TVDDrWCVFVxeymqVixOaXKhDKhkDk-3Fo--PJ4knFhE
+            VITE_SUPABASE_ANON=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjc0NDI4NDAwLAogICAgImV4cCI6IDE4MzIxOTQ4MDAKfQ.ipW-IGjdKpSEmOR8NyBUb6mWqVenN_GSdbPpi-bo9IE
           push: true # ${{ github.ref_type == 'tag' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -77,7 +77,7 @@ jobs:
           build-args: |
             VITE_FRONTEND_URL=https://app.dokedu.org
             VITE_SUPABASE_URL=https://api.dokedu.org
-            VITE_SUPABASE_ANON=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjcyNzg2ODAwLAogICAgImV4cCI6IDE4MzA1NTMyMDAKfQ.TVDDrWCVFVxeymqVixOaXKhDKhkDk-3Fo--PJ4knFhE
+            VITE_SUPABASE_ANON=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjc0NDI4NDAwLAogICAgImV4cCI6IDE4MzIxOTQ4MDAKfQ.ipW-IGjdKpSEmOR8NyBUb6mWqVenN_GSdbPpi-bo9IE
           push: true # ${{ github.ref_type == 'tag' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

@@ -18,7 +18,6 @@
 <script lang="ts" setup>
 import { useStore } from '../../store/store'
 import supabase from '../../api/supabase'
-import { tracker } from '../../replay'
 import { Account, Organisation } from '../../../../backend/test/types'
 import { router } from '../../router/_index'
 
@@ -47,7 +46,6 @@ async function useOrg(id: string) {
   if (error || account === null) return false
 
   store.account = account
-  tracker.setMetadata('identityId', account.identity_id as string)
 
   await router.push('/')
 }

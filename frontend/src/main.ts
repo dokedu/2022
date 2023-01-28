@@ -5,7 +5,6 @@ import { router } from './router/_index'
 import { createPinia } from 'pinia'
 import { createTestUser, getClient } from './api/helper'
 import supabase from './api/supabase'
-import { tracker } from './replay'
 import * as yup from 'yup'
 import yupLocaleDE from './locale/yupLocaleDE'
 yup.setLocale(yupLocaleDE)
@@ -31,9 +30,6 @@ app.use(router)
 app.use(createPinia())
 app.directive('click-outside', clickOutside)
 app.mount('#app')
-
-// OpenReplay Tracker
-if (import.meta.env.PROD) tracker.start()
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

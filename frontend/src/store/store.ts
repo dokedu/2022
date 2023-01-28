@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import supabase from '../api/supabase'
 import { Account, Organisation } from '../../../backend/test/types'
 import { useRouter } from 'vue-router'
-import { tracker } from '../replay'
 import { router } from '../router/_index'
 
 interface StoreState {
@@ -74,8 +73,6 @@ export const useStore = defineStore('main', {
       this.user.id = payload.user.id
       this.user.email = payload.user.email
 
-      tracker.setMetadata('userId', payload.user.id)
-
       // TODO: get account from le database
       const { data: organisations, error } = await supabase.from<Organisation>('organisations').select('*')
 
@@ -101,7 +98,6 @@ export const useStore = defineStore('main', {
         if (error || account === null) return false
 
         this.account = account
-        tracker.setMetadata('identityId', account.identity_id as string)
       }
 
       this.user.isLoggedIn = true

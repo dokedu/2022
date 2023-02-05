@@ -1,0 +1,1 @@
+Here we test database logic using a Supabase JS client.

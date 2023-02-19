@@ -42,13 +42,15 @@ import supabase from '../../api/supabase'
 import { useRouter } from 'vue-router'
 
 export default {
-  name: 'PageForgotPassword',
+  name: 'PageResetPassword',
   setup() {
     const password = ref('')
     const errorMsg = ref(null as null | string)
     const router = useRouter()
 
     const updateUser = async () => {
+      const session = await supabase.auth.getSession()
+      console.log('User session ', session.data.session)
       const res = await supabase.auth.updateUser({ password: password.value })
 
       if (res.error) {

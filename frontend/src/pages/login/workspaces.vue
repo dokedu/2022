@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import { useStore } from '../../store/store'
 import supabase from '../../api/supabase'
-import { Account, Organisation } from '../../../../backend/test/types'
+import { Account } from '../../../../backend/test/types'
 import { router } from '../../router/_index'
 
 const store = useStore()

@@ -26,4 +26,5 @@ export const useCompetenceStore = defineStore('competence', {
       }
     },
   },
+  persist: true,
 })

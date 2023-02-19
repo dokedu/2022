@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import supabase from '../api/supabase'
 import { Account, Organisation } from '../../../backend/test/types'
-import { useRouter } from 'vue-router'
 import { router } from '../router/_index'
 
 interface StoreState {
@@ -110,4 +109,5 @@ export const useStore = defineStore('main', {
       }
     },
   },
+  persist: true,
 })

@@ -8,3 +8,4 @@ src/config.js
 cypress/screenshots
 cypress/videos
 .env
+.yarn

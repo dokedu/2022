@@ -15,10 +15,6 @@ supabase.auth.onAuthStateChange(async (event) => {
     case 'SIGNED_OUT':
       await router.push({ name: 'logout' })
       break
-    case 'PASSWORD_RECOVERY':
-      const access_token = route.query.access_token
-      const type = route.query.type
-      await router.push({ name: 'password-reset', query: { access_token, type } })
   }
 })
 

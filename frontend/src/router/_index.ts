@@ -68,6 +68,7 @@ interface RouteWithGuard extends RouteLocationNormalized {
 
 // Prevent user from accessing pages without logging in
 export let redirectAfterLogin: RouteLocation = { name: 'entries' } as RouteLocation
+
 router.beforeEach(async (to, from, next) => {
   if (to.name === 'logout') {
     await supabase.auth.signOut()

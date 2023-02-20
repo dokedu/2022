@@ -2,7 +2,7 @@
   <div class="flex min-h-screen flex-col justify-center bg-slate-50 py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <div class="mx-auto mb-2">
-        <img src="/assets/dokedu-logo.svg" alt="Dokedu logo" class="mx-auto" />
+        <img src="/assets/dokedu-logo.svg" height="75" width="112" alt="Dokedu logo" class="mx-auto" />
       </div>
     </div>
 

@@ -2,7 +2,7 @@
   <div class="flex min-h-screen flex-col justify-center bg-slate-50 py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <div class="mx-auto mb-2">
-        <img src="/assets/dokedu-logo.svg" alt="Dokedu logo" class="mx-auto" />
+        <img src="/assets/dokedu-logo.svg" height="75" width="112" alt="Dokedu logo" class="mx-auto" />
       </div>
     </div>
 
@@ -10,13 +10,13 @@
       <div class="rounded-lg bg-white py-8 px-4 shadow sm:px-10">
         <form class="space-y-6" @submit.prevent="updateUser">
           <div>
-            <h2 class="text-md mb-2 font-semibold text-slate-900">Set a new password</h2>
+            <h2 class="text-md mb-2 font-semibold text-slate-900">Neues Passwort festlegen</h2>
           </div>
           <div>
-            <label for="password" class="block text-sm font-medium text-slate-700">Password</label>
+            <label for="password" class="block text-sm font-medium text-slate-700">Passwort</label>
             <div class="mt-1">
               <input id="password" v-model="password" name="password" type="password" autocomplete="false" required
-                placeholder="Enter your new password"
+                placeholder="Gib dein neues Passwort ein"
                 class="block w-full appearance-none rounded-lg border border-slate-200 px-3 py-2 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm" />
             </div>
           </div>
@@ -24,7 +24,7 @@
           <div>
             <button data-cy="submit" type="submit"
               class="flex w-full justify-center rounded-lg border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-              Save password
+              Passwort speichern
             </button>
           </div>
           <div v-show="errorMsg && errorMsg.length > 1" data-cy="errorMsg" class="text-sm font-medium text-red-500">

@@ -58,7 +58,7 @@ router.beforeResolve((to: RouteWithGuard, from, next) => {
       case 'reset-password':
       case 'recovery':
       case 'invite':
-        if (from.name === 'password-reset' && to.name === 'password-reset') return next()
+        if (to.name === 'password-reset') return next()
         return next({ name: 'password-reset' })
       default:
         return next()

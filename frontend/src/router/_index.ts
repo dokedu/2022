@@ -79,7 +79,8 @@ router.beforeEach(async (to, from, next) => {
     if (to.meta.public === true) {
       next()
     } else {
-      if (useStore().user.isLoggedIn) {
+      const session = await supabase.auth.getSession()
+      if (session.data.session !== null) {
         next()
       } else {
         redirectAfterLogin = to

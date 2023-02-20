@@ -11,7 +11,6 @@ interface StoreState {
     email: string
     password: string
     profilePicture: string
-    isLoggedIn: boolean
   }
   account: {
     id: string
@@ -31,7 +30,6 @@ export const useStore = defineStore('main', {
         email: '',
         password: '',
         profilePicture: '',
-        isLoggedIn: false,
       },
       account: {
         id: '',
@@ -98,8 +96,6 @@ export const useStore = defineStore('main', {
 
         this.account = account
       }
-
-      this.user.isLoggedIn = true
 
       if (organisations.length > 1) {
         // if the org_id is not set, forward to account switcher

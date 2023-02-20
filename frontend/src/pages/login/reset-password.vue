@@ -27,7 +27,7 @@
               Save password
             </button>
           </div>
-          <div data-cy="errorMsg" class="text-sm font-medium text-red-500">
+          <div v-show="errorMsg" data-cy="errorMsg" class="text-sm font-medium text-red-500">
             "{{ errorMsg }}" - Bitte gib diesen Fehlercode bei deiner Supportanfrage mit an
           </div>
         </form>

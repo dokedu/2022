@@ -43,27 +43,28 @@ interface RouteWithGuard extends RouteLocationNormalized {
   }
 }
 
-router.beforeResolve((to: RouteWithGuard, from, next) => {
-  if (to.meta?.roles && to.meta?.roles.length > 0) {
-    const store = useStore()
-    if (!to.meta?.roles.includes(store.account.role)) {
-      return next('/')
-    }
-  }
-
-  if (to.hash) {
-    const query = new URLSearchParams(to.hash.substring(1))
-
-    switch (query.get('type')) {
-      case 'reset-password':
-      case 'invite':
-        return next('/reset-password')
-      default:
-        return next()
-    }
-  }
-  return next()
-})
+// TODO: fix because otherwise invite user won't work
+//router.beforeResolve((to: RouteWithGuard, from, next) => {
+//  if (to.meta?.roles && to.meta?.roles.length > 0) {
+//    const store = useStore()
+//    if (!to.meta?.roles.includes(store.account.role)) {
+//      return next('/')
+//    }
+//  }
+//
+//  if (to.hash) {
+//    const query = new URLSearchParams(to.hash.substring(1))
+//
+//    switch (query.get('type')) {
+//      case 'reset-password':
+//      case 'invite':
+//        return next('/reset-password')
+//      default:
+//        return next()
+//    }
+//  }
+//  return next()
+//})
 
 // Prevent user from accessing pages without logging in
 export let redirectAfterLogin: RouteLocation = { name: 'entries' } as RouteLocation

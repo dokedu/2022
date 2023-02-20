@@ -56,8 +56,10 @@ router.beforeResolve((to: RouteWithGuard, from, next) => {
 
     switch (query.get('type')) {
       case 'reset-password':
+      case 'recovery':
       case 'invite':
-        return next('/reset-password')
+        if (from.name === 'password-reset' && to.name === 'password-reset') return next()
+        return next({ name: 'password-reset' })
       default:
         return next()
     }

@@ -15,7 +15,7 @@
           <div>
             <label for="password" class="block text-sm font-medium text-slate-700">Password</label>
             <div class="mt-1">
-              <input id="password" v-model="password" name="password" type="password" autocomplete="false" required=""
+              <input id="password" v-model="password" name="password" type="password" autocomplete="false" required
                 placeholder="Enter your new password"
                 class="block w-full appearance-none rounded-lg border border-slate-200 px-3 py-2 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm" />
             </div>
@@ -27,8 +27,9 @@
               Save password
             </button>
           </div>
-          <div v-show="errorMsg" data-cy="errorMsg" class="text-sm font-medium text-red-500">
-            "{{ errorMsg }}" - Bitte gib diesen Fehlercode bei deiner Supportanfrage mit an
+          <div v-show="errorMsg && errorMsg.length > 1" data-cy="errorMsg" class="text-sm font-medium text-red-500">
+            {{ errorMsg }} <br>
+            <span class="text-xs">Bitte gib diesen Fehlercode bei deiner Supportanfrage mit an</span>
           </div>
         </form>
       </div>

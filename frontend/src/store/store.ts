@@ -107,6 +107,7 @@ export const useStore = defineStore('main', {
           await router.push('/login/workspaces')
         }
       }
+      await router.push({ name: 'entries' })
     },
   },
   persist: true,

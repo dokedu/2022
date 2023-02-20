@@ -4,23 +4,21 @@ import LoginLayout from './layouts/LoginLayout.vue'
 import WideLayout from './layouts/WideLayout.vue'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useStore } from './store/store'
 import supabase from './api/supabase'
-import { redirectAfterLogin } from './router/_index'
 
 const route = useRoute()
 const router = useRouter()
 
-supabase.auth.onAuthStateChange(async (event, payload) => {
+supabase.auth.onAuthStateChange(async (event) => {
   console.log(event)
   switch (event) {
     case 'SIGNED_IN':
-      await useStore().afterLogin(payload)
+      //await useStore().afterLogin(payload)
 
       // TODO: this might not be the most elegant solution, but it works for now
-      if (route.name === 'login') {
-        await router.push(redirectAfterLogin)
-      }
+      //if (route.name === 'login') {
+      //  await router.push(redirectAfterLogin)
+      //}
 
       break
     case 'SIGNED_OUT':

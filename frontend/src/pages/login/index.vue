@@ -81,7 +81,7 @@ export default {
         return
       }
 
-      await router.push(redirectAfterLogin)
+      await store.afterLogin(res.data)
     }
 
     return {

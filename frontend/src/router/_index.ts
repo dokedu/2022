@@ -68,8 +68,6 @@ router.beforeResolve((to: RouteWithGuard, from, next) => {
 router.beforeEach(async (to, from, next) => {
   if (to.name === 'logout') {
     await supabase.auth.signOut()
-    useStore().$reset()
-    localStorage.clear()
     next({ name: 'login' })
   } else {
     if (to.meta.public === true) {

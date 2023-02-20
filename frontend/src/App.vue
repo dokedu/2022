@@ -5,6 +5,8 @@ import WideLayout from './layouts/WideLayout.vue'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import supabase from './api/supabase'
+import { useStore } from './store/store'
+import { useCompetenceStore } from './store/competence'
 
 const route = useRoute()
 const router = useRouter()
@@ -22,7 +24,9 @@ supabase.auth.onAuthStateChange(async (event, session) => {
       await supabase.auth.setSession({ access_token: session?.access_token, refresh_token: session?.refresh_token })
       break
     case 'SIGNED_OUT':
-      await router.push({ name: 'logout' })
+      useStore().$reset()
+      useCompetenceStore().$reset()
+      localStorage.clear()
       break
   }
 })

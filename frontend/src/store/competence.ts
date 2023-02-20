@@ -19,7 +19,7 @@ export const useCompetenceStore = defineStore('competence', {
         this.competences = this.competences.filter((el) => el.id !== competence.id)
       } else {
         const { data: parents } = await supabase
-          .rpc<Competence>('get_competence_tree', { _competence_id: competence.id })
+          .rpc('get_competence_tree', { _competence_id: competence.id })
           .select()
 
         this.competences.push(Object.assign({}, competence, { parents }))

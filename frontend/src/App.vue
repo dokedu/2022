@@ -13,9 +13,12 @@ supabase.auth.onAuthStateChange(async (event, session) => {
   console.log(event)
   switch (event) {
     case 'SIGNED_IN':
-      console.log('SIGNED_IN::SESSION', session)
-      if (!session?.access_token) return false
-      if (!session?.refresh_token) return false
+      if ((await supabase.auth.getSession()).data.session === null) break
+
+      console.log('ACCESS_TOKEN', session?.access_token)
+      console.log('REFRESH_TOKEN', session?.refresh_token)
+      if (!session?.access_token) break
+      if (!session?.refresh_token) break
       await supabase.auth.setSession({ access_token: session?.access_token, refresh_token: session?.refresh_token })
       break
     case 'SIGNED_OUT':

@@ -43,31 +43,27 @@ interface RouteWithGuard extends RouteLocationNormalized {
   }
 }
 
-// TODO: fix because otherwise invite user won't work
-//router.beforeResolve((to: RouteWithGuard, from, next) => {
-//  if (to.meta?.roles && to.meta?.roles.length > 0) {
-//    const store = useStore()
-//    if (!to.meta?.roles.includes(store.account.role)) {
-//      return next('/')
-//    }
-//  }
-//
-//  if (to.hash) {
-//    const query = new URLSearchParams(to.hash.substring(1))
-//
-//    switch (query.get('type')) {
-//      case 'reset-password':
-//      case 'invite':
-//        return next('/reset-password')
-//      default:
-//        return next()
-//    }
-//  }
-//  return next()
-//})
+router.beforeResolve((to: RouteWithGuard, from, next) => {
+  if (to.meta?.roles && to.meta?.roles.length > 0) {
+    const store = useStore()
+    if (!to.meta?.roles.includes(store.account.role)) {
+      return next('/')
+    }
+  }
 
-// Prevent user from accessing pages without logging in
-export let redirectAfterLogin: RouteLocation = { name: 'entries' } as RouteLocation
+  if (to.hash) {
+    const query = new URLSearchParams(to.hash.substring(1))
+
+    switch (query.get('type')) {
+      case 'reset-password':
+      case 'invite':
+        return next('/reset-password')
+      default:
+        return next()
+    }
+  }
+  return next()
+})
 
 router.beforeEach(async (to, from, next) => {
   if (to.name === 'logout') {
@@ -83,7 +79,6 @@ router.beforeEach(async (to, from, next) => {
       if (session.data.session !== null) {
         next()
       } else {
-        redirectAfterLogin = to
         next('/login')
       }
     }

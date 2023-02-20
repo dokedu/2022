@@ -51,9 +51,7 @@
 <script lang="ts">
 import { ref } from 'vue'
 import supabase from '../../api/supabase'
-import { useRouter } from 'vue-router'
 import { useStore } from '../../store/store'
-import { redirectAfterLogin } from '../../router/_index'
 
 export default {
   name: 'PageLogin',
@@ -61,7 +59,6 @@ export default {
     const email = ref('')
     const password = ref('')
     const errorMsg = ref(null as null | string)
-    const router = useRouter()
     const store = useStore()
 
     const login = async () => {

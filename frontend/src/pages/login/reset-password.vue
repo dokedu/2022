@@ -28,7 +28,7 @@
             </button>
           </div>
           <div data-cy="errorMsg" class="text-sm font-medium text-red-500">
-            {{ errorMsg }}
+            "{{ errorMsg }}" - Bitte gib diesen Fehlercode bei deiner Supportanfrage mit an
           </div>
         </form>
       </div>
@@ -39,14 +39,13 @@
 <script lang="ts">
 import { ref } from 'vue'
 import supabase from '../../api/supabase'
-import { useRouter } from 'vue-router'
+import { useStore } from 'src/store/store'
 
 export default {
   name: 'PageResetPassword',
   setup() {
     const password = ref('')
     const errorMsg = ref(null as null | string)
-    const router = useRouter()
 
     const updateUser = async () => {
       const session = await supabase.auth.getSession()
@@ -58,7 +57,7 @@ export default {
         return
       }
 
-      await router.push({ name: 'login' })
+      await useStore().afterLogin(session.data.session)
     }
 
     return {

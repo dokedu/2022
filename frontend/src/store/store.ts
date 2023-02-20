@@ -71,39 +71,47 @@ export const useStore = defineStore('main', {
       this.user.email = payload.user.email
 
       // TODO: get account from le database
-      const { data: organisations, error } = await supabase.from<Organisation>('organisations').select('*')
+      const { data: organisations, error } = await supabase.from('organisations').select('*')
 
       if (error || organisations === null) return false
 
-      // TODO: inform user he needs to be in a organisation to use Dokedu
-      if (organisations.length === 0) return false
-
       this.organisations = organisations
 
-      if (organisations.length === 1) {
-        this.organisationId = organisations[0].id
-        localStorage.setItem('organisationId', this.organisationId)
+      switch (organisations.length) {
+        case 0:
+          alert('You must be in an organization to use Dokedu')
+          break
+        case 1:
+          this.organisationId = organisations[0].id
+          localStorage.setItem('organisationId', this.organisationId)
 
-        const { data: account, error } = await supabase
-          .from<Account & { 'identities.user_id': string }>('accounts')
-          .select('*,identities!inner (user_id)')
-          .eq('organisation_id', this.organisationId)
-          .eq('identities.user_id', this.user.id)
-          .order('created_at')
-          .single()
+          const { data: account, error } = await supabase
+            .from('accounts')
+            .select('*,identities!inner (user_id)')
+            .eq('organisation_id', this.organisationId)
+            .eq('identities.user_id', this.user.id)
+            .order('created_at')
+            .single()
 
-        if (error || account === null) return false
+          if (error || account === null) {
+            alert('Something went wrong while logging in. Please try again later.')
+            await router.push({ name: 'login' })
+            break
+          }
 
-        this.account = account
+          this.account = account
+
+          await router.push({ name: 'entries' })
+          break
+        default:
+          // We can skip the workspace selection if the user already has an organization ID in local storage
+          if (this.organisationId) {
+            await router.push({ name: 'entries' })
+          } else {
+            await router.push('/login/workspaces')
+          }
+          break
       }
-
-      if (organisations.length > 1) {
-        // if the org_id is not set, forward to account switcher
-        if (!this.organisationId) {
-          await router.push('/login/workspaces')
-        }
-      }
-      await router.push({ name: 'entries' })
     },
   },
   persist: true,

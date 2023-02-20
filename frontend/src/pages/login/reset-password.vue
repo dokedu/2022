@@ -39,7 +39,7 @@
 <script lang="ts">
 import { ref } from 'vue'
 import supabase from '../../api/supabase'
-import { useStore } from 'src/store/store'
+import { useStore } from '../../store/store'
 
 export default {
   name: 'PageResetPassword',

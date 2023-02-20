@@ -12,18 +12,13 @@ const router = useRouter()
 supabase.auth.onAuthStateChange(async (event) => {
   console.log(event)
   switch (event) {
-    case 'SIGNED_IN':
-      //await useStore().afterLogin(payload)
-
-      // TODO: this might not be the most elegant solution, but it works for now
-      //if (route.name === 'login') {
-      //  await router.push(redirectAfterLogin)
-      //}
-
-      break
     case 'SIGNED_OUT':
       await router.push({ name: 'logout' })
       break
+    case 'PASSWORD_RECOVERY':
+      const access_token = route.query.access_token
+      const type = route.query.type
+      await router.push({ name: 'password-reset', query: { access_token, type } })
   }
 })
 

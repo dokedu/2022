@@ -3,74 +3,62 @@
   <small v-if="errorMessage" class="mt-1 text-red-400">{{ errorMessage }}</small>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import { useField } from 'vee-validate'
 import { onBeforeUnmount, onMounted, ref, watch, toRef } from 'vue'
 
-export default {
-  components: {
-    EditorContent,
+const props = defineProps({
+  name: {
+    type: String,
+    default: '',
   },
-
-  props: {
-    name: {
-      type: String,
-      default: '',
-    },
-    modelValue: {
-      type: [Object, String],
-      default: () => ({}),
-    },
+  modelValue: {
+    type: [Object, String],
+    default: () => ({}),
   },
-  emits: ['update:modelValue'],
+})
+const emit = defineEmits(['update:modelValue'])
 
-  setup(props, { emit }) {
-    const name = toRef(props, 'name')
+const name = toRef(props, 'name')
 
-    const { value: model, errorMessage } = useField(name, undefined, {
-      initialValue: toRef(props, 'modelValue'),
-      validateOnMount: false,
-    })
+const { value: model, errorMessage } = useField(name, undefined, {
+  initialValue: toRef(props, 'modelValue'),
+  validateOnMount: false,
+})
 
-    const updateModel = () => {
-      model.value = editor.value.getHTML().replace(/(<([^>]+)>)/gi, '')
-    }
-
-    watch(
-      () => props.modelValue,
-      (value) => {
-        const isSame = JSON.stringify(editor.value.getJSON()) === JSON.stringify(value)
-        updateModel()
-        if (isSame) {
-          return
-        }
-
-        editor.value.commands.setContent(value, false)
-        updateModel()
-      },
-    )
-
-    const editor = ref()
-    onMounted(() => {
-      editor.value = new Editor({
-        extensions: [StarterKit],
-        content: props.modelValue,
-        onUpdate: () => emit('update:modelValue', editor.value.getJSON()),
-      })
-    })
-
-    onBeforeUnmount(() => {
-      editor.value.destroy()
-    })
-
-    return {
-      editor,
-      errorMessage,
-    }
-  },
+const updateModel = () => {
+  model.value = editor.value.getJSON()
 }
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    const isSame = JSON.stringify(editor.value.getJSON()) === JSON.stringify(value)
+    //updateModel()
+    if (isSame) return
+
+    editor.value.commands.setContent(value, false)
+    updateModel()
+  },
+)
+
+const editor = ref()
+onMounted(() => {
+  editor.value = new Editor({
+    extensions: [StarterKit],
+    content: props.modelValue,
+    onUpdate: () => {
+      emit('update:modelValue', editor.value.getJSON())
+    },
+  })
+})
+
+onBeforeUnmount(() => {
+  editor.value.destroy()
+})
+
 </script>
 
 <style>

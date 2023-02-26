@@ -42,7 +42,6 @@ import { useRoute } from 'vue-router'
 import { parseDate } from '../../../helper/parseDate'
 import { renderEntryBody } from '../../../helper/renderJSON'
 import { ref, watch } from 'vue'
-import { mutate } from 'swrv'
 import { reduceEACsToCompetences } from '../../../store/entry'
 import DButton from '../../../components/ui/DButton.vue'
 import DEntryAccountCompetence from '../../../components/DEntryAccountCompetence.vue'
@@ -53,7 +52,7 @@ const fetchStudentEntries = () =>
   supabase
     .from('view_entries')
     .select(
-      'id, body, created_at, entry_accounts (*, account:account_id (*)), entry_files (*), entry_events (*,  event:event_id (*)), date,account:accounts ( * ), entry_account_competences (*, competence:competence_id (*))',
+      'id, body, created_at, entry_accounts (*, account:account_id (*)), entry_files (*), entry_events (*,  event:event_id (*)), date,account:accounts!entries_account_id_fkey ( * ), entry_account_competences (*, competence:competence_id (*))',
     )
     .is('deleted_at', null)
     .eq('entry_accounts.account_id', route.params.id)
@@ -63,16 +62,11 @@ const fetchStudentEntries = () =>
 const position = ref(0)
 const loading = ref(false)
 
-watch([position], () => {
+watch([position], async () => {
   loading.value = true
-  mutate(
-    `/students/${route.params.id}/entries_all`,
-    fetchStudentEntries().then((res) => {
-      loading.value = false
-      return res.data
-    }),
-  )
+  await refreshEntries()
+  loading.value = false
 })
 
-const { data: entries } = useSWRVS<Entry[]>(`/students/${route.params.id}/entries_all`, fetchStudentEntries())
+const { data: entries, mutate: refreshEntries } = useSWRVS<Entry[]>(`/students/${route.params.id}/entries_all`, fetchStudentEntries())
 </script>

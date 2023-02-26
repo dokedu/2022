@@ -132,7 +132,7 @@ export const useEntryStore = defineStore('entry', {
     getEntryById(id: string) {
       return supabase
         .from('view_entries')
-        .select('id, body, created_at, date,account:accounts ( id, first_name, last_name )')
+        .select('id, body, created_at, date,account:accounts!entries_account_id_fkey ( id, first_name, last_name )')
         .eq('id', id)
         .single()
     },

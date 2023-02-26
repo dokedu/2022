@@ -2,7 +2,7 @@ import useSWRV from 'swrv'
 import { nanoid } from 'nanoid'
 import { createClient } from '@supabase/supabase-js'
 import ApiClient from './apiClient'
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 
 const swrvFetchWrapper = async (promise: Promise<any>) => {
   const response = await promise

@@ -2,7 +2,8 @@
   <div v-if="entries?.length > 0" class="mt-10">
     <div class="flex justify-between">
       <div class="mb-2 text-xl">Einträge</div>
-      <router-link :to="{ name: 'student_entries' }" class="cursor-pointer text-blue-500 hover:text-blue-700">alle
+      <router-link :to="{ name: 'entries', query: { students: $route.params.id } }"
+        class="cursor-pointer text-blue-500 hover:text-blue-700">alle
         Einträge</router-link>
     </div>
     <div class="grid h-36 w-full grid-cols-1 gap-2 rounded-lg sm:grid-cols-3">

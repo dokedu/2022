@@ -125,11 +125,38 @@ const deleteEntry = async () => {
   await router.push({ name: 'entries' })
 }
 
+// Try changing 'accounts' to one of the following: 'accounts!entries_account_id_fkey', 'accounts!entry_accounts', 'accounts!entry_account_competences'. Find the desired relationship in the 'details' key.
 const fetchEntries = (id: string) =>
   supabase
     .from('entries')
     .select(
-      'id, body, created_at, date, entry_accounts (*, account:account_id (*)), entry_files (*), entry_events (*,  event:event_id (*)), date,account:accounts ( * ), entry_account_competences (*, competence:competence_id (*)), entry_tags (*,  tag:tag_id(*))',
+      `
+id, 
+body, 
+created_at, 
+date, 
+entry_accounts (
+  *, 
+  account:account_id (*)
+), 
+entry_files (*), 
+entry_events (
+  *,
+  event:event_id (*)
+), 
+date, 
+account:accounts!entries_account_id_fkey ( 
+  * 
+), 
+entry_account_competences (
+  *, 
+  competence:competence_id (*)
+), 
+entry_tags (
+  *, 
+  tag:tag_id(*)
+)
+`,
     )
     .eq('id', id)
     .single()

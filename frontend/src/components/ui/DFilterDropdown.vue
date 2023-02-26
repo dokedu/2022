@@ -1,32 +1,20 @@
 <template>
   <div class="relative flex min-w-0 flex-col">
-    <label
-      class="mb-1 block text-xs font-medium text-slate-500 transition ease-in-out"
-      :class="(modelValue && modelValue.length) || search ? 'opacity-100' : 'opacity-0'"
-      >{{ label }}</label
-    >
-    <label
-      ref="dropdownInput"
+    <label class="mb-1 block text-xs font-medium text-slate-500 transition ease-in-out"
+      :class="(modelValue && modelValue.length) || search ? 'opacity-100' : 'opacity-0'">{{ label }}</label>
+    <label ref="dropdownInput"
       class="relative cursor-pointer rounded-md border border-slate-300 bg-white py-1.5 px-3 text-left align-middle shadow-sm sm:text-sm"
       :class="{
         'border-blue-500 outline-none ring-1 ring-blue-500 ': state.isOpen,
         'border-blue-600 bg-blue-600 pr-7 text-white': modelValue && modelValue.length,
-      }"
-    >
-      <input
-        ref="searchRef"
-        v-model="search"
-        :type="searchable ? 'text' : 'button'"
+      }">
+      <input ref="searchRef" v-model="search" :type="searchable ? 'text' : 'button'"
         class="absolute top-1.5 left-3 right-3 z-0 w-full border-0 bg-transparent py-0 px-0 pr-10 text-sm focus:outline-none focus:ring-0"
-        @focusin="state.isOpen = true"
-        @keydown.down.prevent="selectNext"
-        @keydown.up.prevent="selectPrevious"
-        @keydown.enter.prevent="onEnter"
-        @input="onCalculateWidth"
-      />
+        @focusin="state.isOpen = true" @keydown.down.prevent="selectNext" @keydown.up.prevent="selectPrevious"
+        @keydown.enter.prevent="onEnter" @input="onCalculateWidth" />
       <div class="pointer-events-none z-10 flex h-full items-center">
         <template v-if="search.length <= 0">
-          <div class="flex items-center space-x-2">
+          <div class="flex items-center space-x-2 text-neutral-900">
             <div>
               {{ dropdownLabel }}
             </div>
@@ -38,44 +26,27 @@
         <template v-else>&nbsp;</template>
       </div>
       <span class="absolute inset-y-0 right-0 z-20 flex items-center pr-2">
-        <XIcon
-          v-if="modelValue && modelValue.length"
-          class="h-4 w-4"
-          aria-hidden="true"
-          @click.prevent="onClearValue"
-        />
+        <XIcon v-if="modelValue && modelValue.length" class="h-4 w-4" aria-hidden="true" @click.prevent="onClearValue" />
       </span>
     </label>
 
     <div ref="dropdownMenu" class="relative">
-      <transition
-        leave-active-class="transition ease-in duration-100"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-      >
-        <ul
-          v-if="state.isOpen"
+      <transition leave-active-class="transition ease-in duration-100" leave-from-class="opacity-100"
+        leave-to-class="opacity-0">
+        <ul v-if="state.isOpen"
           class="absolute top-0 z-10 mt-1 max-h-60 w-full min-w-[170px] overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-          :class="{ '-top-12 -translate-y-full': openOnTop }"
-        >
+          :class="{ '-top-12 -translate-y-full': openOnTop }">
           <li class="mb-1 flex flex-wrap gap-2 px-2">
             <slot />
           </li>
           <li v-if="!filteredOptions.length && search" class="py-2 pl-4">Keine Treffer gefunden</li>
-          <li
-            v-for="(option, index) in filteredOptions"
-            :key="option.value"
+          <li v-for="(option, index) in filteredOptions" :key="option.value"
             class="relative cursor-pointer select-none py-2 pl-4 pr-4 text-slate-900 hover:bg-blue-600 hover:text-white"
-            :class="{ 'bg-blue-600 text-white': index === focusedOptionIndex }"
-            @click="selectedOptions = option"
-          >
+            :class="{ 'bg-blue-600 text-white': index === focusedOptionIndex }" @click="selectedOptions = option">
             <span :class="[selectedOptionIndexes.includes(index) ? 'font-semibold' : 'font-normal', 'block truncate']">
               {{ option.label }}
             </span>
-            <span
-              v-if="selectedOptionIndexes.includes(index)"
-              class="absolute inset-y-0 right-0 flex items-center pr-2"
-            >
+            <span v-if="selectedOptionIndexes.includes(index)" class="absolute inset-y-0 right-0 flex items-center pr-2">
               <CheckIcon class="h-4 w-4" aria-hidden="true"></CheckIcon>
             </span>
           </li>

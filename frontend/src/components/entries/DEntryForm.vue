@@ -16,8 +16,7 @@
           <DIcon name="calendar" />
           <div>Projekt hinzufügen</div>
         </DButton>
-        <DButton size="28" look="secondary" class="w-full space-x-2 sm:w-auto"
-          @click="entryStore.openModal = 'students'">
+        <DButton size="28" look="secondary" class="w-full space-x-2 sm:w-auto" @click="entryStore.openModal = 'students'">
           <DIcon name="user-plus" />
           <div>Schüler hinzufügen</div>
         </DButton>
@@ -107,7 +106,7 @@ export default {
     const fetchEntry = (id: string) =>
       supabase
         .from('view_entries')
-        .select('id, body, created_at, date,account:accounts ( id, first_name, last_name )')
+        .select('id, body, created_at, date,account:accounts!entries_account_id_fkey ( id, first_name, last_name )')
         .eq('id', id)
         .single()
 
@@ -243,7 +242,8 @@ export default {
     const { date, body, entry_accounts } = storeToRefs(entryStore)
 
     const schema = yup.object({
-      description: yup.string().min(1).required().label('Beschreibung'),
+      //description: yup.string().min(1).required().label('Beschreibung'),
+      description: yup.object().required().label('Beschreibung'),
       date: yup.string().required().label('Datum'),
     })
 
@@ -251,7 +251,7 @@ export default {
 
     const onCreate = async () => {
       const { valid } = await validate()
-      if (!valid) return
+      if (!valid) return alert('Bitte fülle alle erforderlichen Felder aus')
 
       const data = await entryStore.save()
       await router.push({ name: 'entry', params: { id: data.id } })

@@ -40,8 +40,8 @@
       <div v-else class="pt-12 text-center text-slate-500">Keine Einträge gefunden.</div>
     </div>
     <div class="mt-4" v-if="entries !== undefined">
-      <DPagination v-show="entries?.count > 0 && entries?.count > parseInt(limit)" :limit="parseInt(limit)"
-        :count="entries?.count" :offset="parseInt(offset)" @change="setOffset" />
+      <DPagination v-show="entries?.count > 0 && entries?.count > limitInt" :limit="limitInt" :count="entries?.count"
+        :offset="offsetInt" @change="setOffset" />
     </div>
   </div>
 </template>
@@ -53,7 +53,7 @@ import { renderEntryBodyText } from '../../helper/renderJSON'
 import { parseDate, parseDateCalendar } from '../../helper/parseDate'
 import { Account, Entry, Tag } from '../../../../backend/test/types/index'
 import { getOrganisationId } from '../../helper/general'
-import { computed, ref, watch, reactive, toRefs } from 'vue'
+import { computed, ref, watch } from 'vue'
 import DPagination from '../../components/ui/DPagination.vue'
 import DTable from '../../components/ui/DTable.vue'
 import { useRouter } from 'vue-router'
@@ -67,7 +67,9 @@ const router = useRouter()
 // Page Filters
 const limitOptions = [5, 10, 25, 50, 100]
 const limit = useRouteQuery<string>('limit', "10")
+const limitInt = computed(() => parseInt(limit.value))
 const offset = useRouteQuery<string>('offset', "0")
+const offsetInt = computed(() => parseInt(offset.value))
 //const search = toRef(entryStore.filters, 'search')
 const accountFilter = useRouteQuery<string | null>('accounts')
 const studentFilter = useRouteQuery<string | null>('students')
@@ -147,7 +149,7 @@ const { data: students } = useSWRV<Account[]>('/entries/?/students', async () =>
   .is('deleted_at', null)
   .limit(200).then((res) => res.data as Account[]))
 
-const { data: entries, mutate: refreshEntries } = useSWRVX<{ data: (Entry & { account: Account })[]; count: number }>('/entries', () => {
+const { data: entries, mutate: refreshEntries } = useSWRVX<{ data: (Entry & { account: Account })[]; count: number }>('/entries', async () => {
   const studentSelect = studentFilter.value ? 'entry_accounts!inner (*),' : ''
   const tagsSelect = tagsFilter.value !== null && tagsFilter.value.length > 0 ? ', entry_tags!inner (tag_id)' : ''
 
@@ -176,30 +178,83 @@ const { data: entries, mutate: refreshEntries } = useSWRVX<{ data: (Entry & { ac
     query = query.eq('entry_accounts.account_id', studentFilter.value)
   }
 
-  return query.then(res => {
-    return {
-      data: res.data as (Entry & { account: Account })[],
-      count: res.count as number,
-    }
-  })
+  const res = await query
+  return {
+    data: res.data as (Entry & { account: Account })[],
+    count: res.count as number,
+  }
 }
 )
 
+// [limit, studentFilter, accountFilter, sorting, tagsFilter],
+
 watch(
-  [limit, studentFilter, accountFilter, sorting, tagsFilter],
-  async () => {
+  limit,
+  async (a, b) => {
+    console.log('watch: limit')
+    if (JSON.stringify(a) === JSON.stringify(b)) return
     offset.value = "0"
     await refreshEntries()
   },
-  { deep: true, immediate: true },
+  { immediate: true, deep: true },
 )
 
+watch(
+  studentFilter,
+  async (a, b) => {
+    console.log('watch: studentFilter')
+    if (JSON.stringify(a) === JSON.stringify(b)) return
+    offset.value = "0"
+    await refreshEntries()
+  },
+  { immediate: true, deep: true },
+)
+
+watch(
+  accountFilter,
+  async (a, b) => {
+    console.log('watch: accountFilter')
+    if (JSON.stringify(a) === JSON.stringify(b)) return
+    offset.value = "0"
+    await refreshEntries()
+  },
+  { immediate: true, deep: true },
+)
+
+watch(
+  sorting,
+  async (a, b) => {
+    console.log('watch: sorting')
+    if (JSON.stringify(a) === JSON.stringify(b)) return
+    offset.value = "0"
+    await refreshEntries()
+  },
+  { immediate: true, deep: true },
+)
+
+watch(
+  tagsFilter,
+  async (a, b) => {
+    offset.value = "0"
+    await refreshEntries()
+    await refreshEntries()
+  },
+  { deep: true },
+)
+
+
 const setOffset = async (val: number) => {
+  console.log(val, (val).toString())
+
+  console.log('a')
   if (val < 0) return
+  console.log('b')
   if (val > (entries?.value?.count || -1)) return
+  console.log('c')
 
-  offset.value = val.toString()
+  offset.value = (val).toString()
 
+  await refreshEntries()
   await refreshEntries()
 }
 

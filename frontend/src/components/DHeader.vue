@@ -2,8 +2,10 @@
   <div v-if="store.organisations.length > 1" class="flex items-center bg-orange-200 p-2 text-sm text-orange-600">
     Du bist in {{ store.organisations.length }} Organisationen und befindest dich derzeit in
     <strong>&nbsp;"{{ store.organisations.find((a) => a.id === store.organisationId)?.name }}"</strong>.
-    <button class="ml-1 block rounded-md bg-orange-300 px-1 py-0.5 text-xs font-medium text-orange-700"
-      @click="$router.push('/login/workspaces')">
+    <button
+      class="ml-1 block rounded-md bg-orange-300 px-1 py-0.5 text-xs font-medium text-orange-700"
+      @click="$router.push('/login/workspaces')"
+    >
       Wechseln
     </button>
   </div>
@@ -16,13 +18,19 @@
               <DLogo />
             </router-link>
             <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-6">
-              <router-link v-for="item in navigation" :key="item.name" :to="{ name: item.href }"
-                active-class="text-blue-500" :class="[
+              <router-link
+                v-for="item in navigation"
+                :key="item.name"
+                :to="{ name: item.href }"
+                active-class="text-blue-500"
+                :class="[
                   item.current
                     ? 'border-blue-500 text-slate-900'
                     : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700',
                   'inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium',
-                ]" :aria-current="item.current ? 'page' : undefined">
+                ]"
+                :aria-current="item.current ? 'page' : undefined"
+              >
                 <DIcon :name="item.icon" size="20" />
                 <div class="pl-2">{{ item.name }}</div>
               </router-link>
@@ -33,23 +41,31 @@
             <Menu as="div" class="relative ml-3">
               <div>
                 <MenuButton
-                  class="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                  class="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
                   <span class="sr-only">Open user menu</span>
                   <div class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100">
                     <DIcon name="user" size="20" class="first:stroke-slate-200" />
                   </div>
                 </MenuButton>
               </div>
-              <transition enter-active-class="transition ease-out duration-200"
-                enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100"
-                leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100"
-                leave-to-class="transform opacity-0 scale-95">
+              <transition
+                enter-active-class="transition ease-out duration-200"
+                enter-from-class="transform opacity-0 scale-95"
+                enter-to-class="transform opacity-100 scale-100"
+                leave-active-class="transition ease-in duration-75"
+                leave-from-class="transform opacity-100 scale-100"
+                leave-to-class="transform opacity-0 scale-95"
+              >
                 <MenuItems
-                  class="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  class="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                >
                   <MenuItem v-for="item in userNavigation" :key="item.name" v-slot="{ active }">
-                  <router-link :to="{ name: item.href }"
-                    :class="[active ? 'bg-slate-100' : '', 'block px-4 py-2 text-sm text-slate-700']">{{ item.name }}
-                  </router-link>
+                    <router-link
+                      :to="{ name: item.href }"
+                      :class="[active ? 'bg-slate-100' : '', 'block px-4 py-2 text-sm text-slate-700']"
+                      >{{ item.name }}
+                    </router-link>
                   </MenuItem>
                 </MenuItems>
               </transition>
@@ -58,7 +74,8 @@
           <div class="-mr-2 flex items-center sm:hidden">
             <!-- Mobile menu button -->
             <DisclosureButton
-              class="inline-flex items-center justify-center rounded-md bg-white p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+              class="inline-flex items-center justify-center rounded-md bg-white p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
               <span class="sr-only">Open main menu</span>
               <MenuIcon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
               <XIcon v-else class="block h-6 w-6" aria-hidden="true" />
@@ -69,12 +86,19 @@
 
       <DisclosurePanel class="sm:hidden">
         <div class="space-y-1 pt-2 pb-3">
-          <DisclosureButton v-for="item in navigation" :key="item.name" as="a" :href="item.href" :class="[
-            item?.current
-              ? 'flex border-blue-500 bg-blue-50 text-blue-700'
-              : 'flex border-transparent text-slate-600 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800',
-            'flex border-l-4 py-2 pl-3 pr-4 text-base font-medium',
-          ]" :aria-current="item?.current ? 'page' : undefined">
+          <DisclosureButton
+            v-for="item in navigation"
+            :key="item.name"
+            as="a"
+            :href="item.href"
+            :class="[
+              item?.current
+                ? 'flex border-blue-500 bg-blue-50 text-blue-700'
+                : 'flex border-transparent text-slate-600 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800',
+              'flex border-l-4 py-2 pl-3 pr-4 text-base font-medium',
+            ]"
+            :aria-current="item?.current ? 'page' : undefined"
+          >
             <DIcon :name="item.icon" size="20" />
             <div class="pl-2">{{ item.name }}</div>
           </DisclosureButton>
@@ -90,9 +114,14 @@
             </div>
           </div>
           <div class="mt-3 space-y-1">
-            <DisclosureButton v-for="item in userNavigation" :key="item.name" as="a" :href="item.href"
-              class="block px-4 py-2 text-base font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-800">{{
-                item.name }}</DisclosureButton>
+            <DisclosureButton
+              v-for="item in userNavigation"
+              :key="item.name"
+              as="a"
+              :href="item.href"
+              class="block px-4 py-2 text-base font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+              >{{ item.name }}</DisclosureButton
+            >
           </div>
         </div>
       </DisclosurePanel>
@@ -132,7 +161,6 @@ const navigation = computed(() => {
 const userNavigation = [
   // { name: 'Dein Profil', href: 'entries' },
   // { name: 'Einstellungen', href: 'entries' },
-  { name: 'Support', href: 'https://cal.com/team/dokedu/support' },
   { name: 'Abmelden', href: 'logout' },
 ]
 </script>

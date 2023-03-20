@@ -10,6 +10,6 @@ export default [
                 },
             ],
         },
-        component: () => import('../pages/events/new.vue'),
+        component: () => import('../pages/settings/profile.vue'),
     }
 ]

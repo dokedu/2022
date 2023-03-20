@@ -30,7 +30,7 @@ async function handleSubmit() {
         return;
     }
 
-    const { error } = await supabase.auth.updateUser({ password })
+    const { error } = await supabase.auth.updateUser({ password: password.value })
 
     if (error) {
         alert(error.message)

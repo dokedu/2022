@@ -20,18 +20,25 @@ const passwordConfirm = ref('')
 
 
 async function handleSubmit() {
+    if (password.value.length < 8) {
+        alert('Password must be at least 8 characters!');
+        return;
+    }
+
     if (password.value !== passwordConfirm.value) {
         alert('Passwords do not match!');
         return;
     }
 
-
-    const { user, error } = await supabase.auth.update({ password })
+    const { error } = await supabase.auth.updateUser({ password })
 
     if (error) {
         alert(error.message)
         return;
     }
+
+    password.value = ""
+    passwordConfirm.value = ""
 
     alert('Password updated successfully!')
 }

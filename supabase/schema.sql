@@ -1,0 +1,1 @@
+-- current production schema; do not edit; use for supabase db diff

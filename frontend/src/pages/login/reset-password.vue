@@ -37,35 +37,25 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue'
 import supabase from '../../api/supabase'
 import { useStore } from '../../store/store'
 
-export default {
-  name: 'PageResetPassword',
-  setup() {
-    const password = ref('')
-    const errorMsg = ref(null as null | string)
+const password = ref('')
+const errorMsg = ref<null | string>(null)
 
-    const updateUser = async () => {
-      const session = await supabase.auth.getSession()
-      console.log('User session ', session.data.session)
-      const res = await supabase.auth.updateUser({ password: password.value })
+const updateUser = async () => {
+  const session = await supabase.auth.getSession()
+  console.log('User session ', session.data.session)
+  const res = await supabase.auth.updateUser({ password: password.value })
 
-      if (res.error) {
-        errorMsg.value = res.error.message
-        return
-      }
+  if (res.error) {
+    errorMsg.value = res.error.message
+    return
+  }
 
-      await useStore().afterLogin(session.data.session)
-    }
-
-    return {
-      password,
-      errorMsg,
-      updateUser,
-    }
-  },
+  await useStore().afterLogin(session.data.session)
 }
+
 </script>

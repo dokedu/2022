@@ -48,45 +48,32 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue'
 import supabase from '../../api/supabase'
 import { useStore } from '../../store/store'
 
-export default {
-  name: 'PageLogin',
-  setup() {
-    const email = ref('')
-    const password = ref('')
-    const errorMsg = ref(null as null | string)
-    const store = useStore()
+const email = ref('')
+const password = ref('')
+const errorMsg = ref<null | string>(null)
+const store = useStore()
 
-    const login = async () => {
-      const res = await supabase.auth.signInWithPassword({
-        email: email.value,
-        password: password.value,
-      })
+const login = async () => {
+  const res = await supabase.auth.signInWithPassword({
+    email: email.value,
+    password: password.value,
+  })
 
-      if (res.error) {
-        console.log(res)
-        if (res.error.message === 'Invalid login credentials') {
-          errorMsg.value = 'E-Mail oder Passwort falsch'
-        } else {
-          errorMsg.value = 'Unbekannter Fehler'
-        }
-
-        return
-      }
-
-      await store.afterLogin(res.data)
+  if (res.error) {
+    if (res.error.message === 'Invalid login credentials') {
+      errorMsg.value = 'E-Mail oder Passwort falsch'
+    } else {
+      errorMsg.value = 'Unbekannter Fehler'
     }
 
-    return {
-      email,
-      password,
-      errorMsg,
-      login,
-    }
-  },
+    return
+  }
+
+  await store.afterLogin(res.data)
 }
 </script>

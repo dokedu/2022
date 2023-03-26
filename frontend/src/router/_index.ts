@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteLocation, RouteLocationNormalized, RouterOptions } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw, RouteLocationNormalized, RouterOptions } from 'vue-router'
 import login from './login'
 import entry from './entry'
 import { useStore } from '../store/store'
@@ -10,7 +10,7 @@ import supabase from '../api/supabase'
 import admin from './admin'
 import settings from './settings'
 
-const protectRoutes = (routes: any[], roles: string[] = []) => {
+const protectRoutes = (routes: RouteRecordRaw[], roles: string[] = []): RouteRecordRaw[] => {
   return routes.map((route) => {
     if (!route.meta) {
       route.meta = {

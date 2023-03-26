@@ -1,0 +1,20 @@
+{
+  "name": "docxExport",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "compile": "tsc"
+  },
+  "dependencies": {
+    "@tiptap/core": "^2.0.0-beta.176",
+    "@tiptap/starter-kit": "^2.0.0-beta.185",
+    "docx": "^7.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.41",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3"
+  }
+}

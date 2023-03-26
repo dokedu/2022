@@ -10,8 +10,9 @@
       <div class="rounded-lg bg-white py-8 px-4 shadow sm:px-10">
         <form v-if="!success" class="space-y-6" @submit.prevent="login">
           <div>
-            <router-link class="mb-2 block font-medium text-blue-600 hover:text-blue-500" :to="{ name: 'login' }">Zurück
-              zur Anmeldung</router-link>
+            <router-link class="mb-2 block font-medium text-blue-600 hover:text-blue-500" :to="{ name: 'login' }">
+              Zurück zur Anmeldung
+            </router-link>
             <h2 class="text-md mb-2 font-semibold text-slate-900">Passwort zurücksetzen</h2>
             <p class="text-slate-700">
               Wir senden dir dann eine E-Mail mit einem Link, über den du dein Passwort zurücksetzen kannst.
@@ -20,7 +21,7 @@
           <div>
             <label for="email" class="block text-sm font-medium text-slate-700">E-Mail Adresse</label>
             <div class="mt-1">
-              <input id="email" v-model="email" name="email" type="email" autocomplete="email" required=""
+              <input id="email" v-model="email" name="email" type="email" autocomplete="email"
                 placeholder="Gib deine E-Mail Adresse ein"
                 class="block w-full appearance-none rounded-lg border border-slate-200 px-3 py-2 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm" />
             </div>
@@ -42,50 +43,34 @@
             Wir haben dir einen Link geschickt, um dein Passwort zurückzusetzen. Bitte folgen den Anweisungen in der
             E-Mail.
           </p>
-          <DButton :to="{ name: 'login' }">Zurück zur Anmeldeseite</DButton>
+          <DButton look="secondary" :to="{ name: 'login' }">Zurück zur Anmeldeseite</DButton>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue'
 import supabase from '../../api/supabase'
 import DButton from '../../components/ui/DButton.vue'
 
 const RedirectTo = (import.meta.env.VITE_FRONTEND_URL || 'http://localhost:3001') + '/reset-password'
-export default {
-  name: 'PageForgotPassword',
-  components: {
-    DButton,
-  },
 
-  setup() {
-    const email = ref('')
-    const errorMsg = ref(null as null | string)
-    const success = ref(false)
+const email = ref('')
+const errorMsg = ref(null as null | string)
+const success = ref(false)
 
-    const login = async () => {
-      success.value = false
-      errorMsg.value = ''
-      const res = await supabase.auth.resetPasswordForEmail(email.value, { redirectTo: RedirectTo })
+const login = async () => {
+  success.value = false
+  errorMsg.value = ''
+  const res = await supabase.auth.resetPasswordForEmail(email.value, { redirectTo: RedirectTo })
 
-      if (res.error) {
-        errorMsg.value = res.error.message
-        return
-      }
-      // await router.push({ name: 'login' })
+  if (res.error) {
+    errorMsg.value = res.error.message
+    return
+  }
 
-      success.value = true
-    }
-
-    return {
-      email,
-      errorMsg,
-      success,
-      login,
-    }
-  },
+  success.value = true
 }
 </script>

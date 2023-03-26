@@ -18,7 +18,6 @@
 <script lang="ts" setup>
 import { useStore } from '../../store/store'
 import supabase from '../../api/supabase'
-import { Account } from '../../../../backend/test/types'
 import { router } from '../../router/_index'
 
 const store = useStore()
@@ -36,7 +35,7 @@ async function useOrg(id: string) {
   localStorage.setItem('organisationId', store.organisationId)
 
   const { data: account, error } = await supabase
-    .from<Account & { 'identities.user_id': string }>('accounts')
+    .from('accounts')
     .select('*,identities!inner (user_id)')
     .eq('organisation_id', store.organisationId)
     .eq('identities.user_id', store.user.id)

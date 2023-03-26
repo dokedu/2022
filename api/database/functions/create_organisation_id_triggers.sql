@@ -1,0 +1,4 @@
+-- all organisation specific tables will have a field `organisation_id` which is a foreign key to the `organisations` table
+-- ensuring that users can only access data for their organisation we need to ensure that the organisation_id is set correctly
+-- we do this by creating a trigger on each table that ensures that the organisation_id is always set to the current user's organisation_id
+-- get_my_claim('dokedu_organisation_id') returns the organisation_id of the current user

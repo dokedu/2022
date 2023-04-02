@@ -20,6 +20,7 @@ BEGIN
         accounts
     WHERE
         id = NEW.account_id;
+    --
     SELECT
         a.organisation_id INTO entry_org_id
     FROM
@@ -27,14 +28,17 @@ BEGIN
         INNER JOIN accounts a ON a.id = e.account_id
     WHERE
         e.id = NEW.entry_id;
+    --
     SELECT
         c.organisation_id INTO competence_org_id
     FROM
         competences c
     WHERE
         c.id = NEW.competence_id;
+    --
     assert account_org_id = entry_org_id,
     'entry, account and competence are not from the same organisation';
+    --
     assert account_org_id = competence_org_id,
     'entry, account and competence are not from the same organisation';
     RETURN new;

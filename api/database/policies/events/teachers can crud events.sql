@@ -1,5 +1,5 @@
 CREATE POLICY "teacheres can crud events" ON events AS permissive
     FOR ALL
-        USING (get_my_claim ('dokedu_role') = '"teacher"')
-        WITH CHECK (get_my_claim ('dokedu_role') = '"teacher"');
+        USING (get_my_claim ('dokedu_organisation_role') = '"teacher"')
+        WITH CHECK (get_my_claim ('dokedu_organisation_role') = '"teacher"');
 

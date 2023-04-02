@@ -3,4 +3,4 @@ CREATE POLICY "admins can crud entry account competences" ON entry_account_compe
         USING (get_my_claim ('dokedu_organisation_role') = '"admin"')
         WITH CHECK (get_my_claim ('dokedu_organisation_role') = '"admin"');
 
--- check account_id in
+-- TODO: check account_id in

@@ -1,5 +1,0 @@
-.env
-Dockerfile
-test/
-docxExport/node_modules
-docxExport/dist

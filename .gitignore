@@ -4,3 +4,4 @@ docker/tmp/
 .nuxt
 .env
 .yarn
+.env

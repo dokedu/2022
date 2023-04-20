@@ -5,3 +5,4 @@ docker/tmp/
 .env
 .yarn
 .env
+.DS_Store

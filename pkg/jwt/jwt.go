@@ -1,16 +1,16 @@
 package jwt
 
 import (
-	"example/graph/model"
+	"example/pkg/db"
 	"github.com/golang-jwt/jwt"
 )
 
 type Claims struct {
 	jwt.StandardClaims
-	User model.User `json:"user"`
+	User db.User `json:"user"`
 }
 
-func NewClaims(user model.User) Claims {
+func NewClaims(user db.User) Claims {
 	return Claims{
 		User: user,
 	}

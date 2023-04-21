@@ -1,28 +1,35 @@
 package middleware
 
 import (
-	"context"
+	jwt2 "example/pkg/jwt"
+	"github.com/labstack/echo/v4"
 	"net/http"
 	"strings"
 )
 
-func Auth() func(http.Handler) http.Handler {
-	return func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			jwt := r.Header.Get("Authorization")
+func Auth(signer jwt2.Signer) func(echo.HandlerFunc) echo.HandlerFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+
+			jwt := c.Request().Header.Get("Authorization")
 			jwt = strings.TrimPrefix(jwt, "Bearer ")
 
-			// Validate JWT
-			if jwt == "" {
-				next.ServeHTTP(w, r)
-				return
+			if jwt != "" {
+				return next(c)
 			}
 
-			ctx := context.WithValue(r.Context(), "jwt", jwt)
-			r = r.WithContext(ctx)
+			claims, err := signer.ParseAndValidate(jwt)
 
-			// Do stuff here
-			next.ServeHTTP(w, r)
-		})
+			if err != nil {
+				return c.JSON(http.StatusUnauthorized, map[string]string{
+					"message": "Invalid token",
+				})
+			}
+
+			c.Set("user_id", claims.User.ID)
+			c.Set("user_role", claims.User.Role)
+
+			return next(c)
+		}
 	}
 }

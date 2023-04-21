@@ -1,0 +1,62 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+scalar Time
+
+type Organisation {
+    id: ID!
+    name: String!
+    owner: User!
+    createdAt: Time!
+
+    users: [User]
+}
+
+enum UserRole {
+    admin
+    user
+    guest
+}
+
+type User {
+    id: ID!
+    role: UserRole!
+    name: String!
+    email: String!
+    createdAt: Time!
+
+    tasks: [Task]
+}
+
+type Task {
+    id: ID!
+    name: String!
+    description: String!
+    user: User!
+    createdAt: Time!
+    deletedAt: Time
+}
+
+input SignInInput {
+    email: String!
+    password: String!
+}
+
+type SignInPayload {
+    token: String!
+}
+
+type Mutation {
+    signIn(input: SignInInput!): SignInPayload!
+}
+
+type Query {
+    me: User
+    organisations: [Organisation]
+    organisation(id: ID!): Organisation
+    users: [User]
+    user(id: ID!): User
+    tasks: [Task]
+    task(id: ID!): Task
+}

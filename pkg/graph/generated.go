@@ -63,13 +63,12 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Me            func(childComplexity int) int
-		Organisation  func(childComplexity int, id string) int
-		Organisations func(childComplexity int) int
-		Task          func(childComplexity int, id string) int
-		Tasks         func(childComplexity int) int
-		User          func(childComplexity int, id string) int
-		Users         func(childComplexity int) int
+		Me           func(childComplexity int) int
+		Organisation func(childComplexity int) int
+		Task         func(childComplexity int, id string) int
+		Tasks        func(childComplexity int) int
+		User         func(childComplexity int, id string) int
+		Users        func(childComplexity int) int
 	}
 
 	SignInPayload struct {
@@ -105,8 +104,7 @@ type OrganisationResolver interface {
 }
 type QueryResolver interface {
 	Me(ctx context.Context) (*db.User, error)
-	Organisations(ctx context.Context) ([]*db.Organisation, error)
-	Organisation(ctx context.Context, id string) (*db.Organisation, error)
+	Organisation(ctx context.Context) (*db.Organisation, error)
 	Users(ctx context.Context) ([]*db.User, error)
 	User(ctx context.Context, id string) (*db.User, error)
 	Tasks(ctx context.Context) ([]*db.Task, error)
@@ -195,19 +193,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			break
 		}
 
-		args, err := ec.field_Query_organisation_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.Organisation(childComplexity, args["id"].(string)), true
-
-	case "Query.organisations":
-		if e.complexity.Query.Organisations == nil {
-			break
-		}
-
-		return e.complexity.Query.Organisations(childComplexity), true
+		return e.complexity.Query.Organisation(childComplexity), true
 
 	case "Query.task":
 		if e.complexity.Query.Task == nil {
@@ -453,21 +439,6 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		}
 	}
 	args["name"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Query_organisation_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["id"] = arg0
 	return args, nil
 }
 
@@ -898,59 +869,6 @@ func (ec *executionContext) fieldContext_Query_me(ctx context.Context, field gra
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_organisations(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_organisations(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Organisations(rctx)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*db.Organisation)
-	fc.Result = res
-	return ec.marshalOOrganisation2ᚕᚖexampleᚋpkgᚋdbᚐOrganisation(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_organisations(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "id":
-				return ec.fieldContext_Organisation_id(ctx, field)
-			case "name":
-				return ec.fieldContext_Organisation_name(ctx, field)
-			case "owner":
-				return ec.fieldContext_Organisation_owner(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Organisation_createdAt(ctx, field)
-			case "users":
-				return ec.fieldContext_Organisation_users(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Organisation", field.Name)
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _Query_organisation(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_organisation(ctx, field)
 	if err != nil {
@@ -965,7 +883,7 @@ func (ec *executionContext) _Query_organisation(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Organisation(rctx, fc.Args["id"].(string))
+		return ec.resolvers.Query().Organisation(rctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1000,17 +918,6 @@ func (ec *executionContext) fieldContext_Query_organisation(ctx context.Context,
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Organisation", field.Name)
 		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_organisation_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return
 	}
 	return fc, nil
 }
@@ -3954,26 +3861,6 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
-		case "organisations":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_organisations(ctx, field)
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return rrm(innerCtx)
-			})
 		case "organisation":
 			field := field
 
@@ -4988,47 +4875,6 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	}
 	res := graphql.MarshalBoolean(*v)
 	return res
-}
-
-func (ec *executionContext) marshalOOrganisation2ᚕᚖexampleᚋpkgᚋdbᚐOrganisation(ctx context.Context, sel ast.SelectionSet, v []*db.Organisation) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalOOrganisation2ᚖexampleᚋpkgᚋdbᚐOrganisation(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	return ret
 }
 
 func (ec *executionContext) marshalOOrganisation2ᚖexampleᚋpkgᚋdbᚐOrganisation(ctx context.Context, sel ast.SelectionSet, v *db.Organisation) graphql.Marshaler {

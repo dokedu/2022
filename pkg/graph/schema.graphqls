@@ -53,8 +53,7 @@ type Mutation {
 
 type Query {
     me: User
-    organisations: [Organisation]
-    organisation(id: ID!): Organisation
+    organisation: Organisation
     users: [User]
     user(id: ID!): User
     tasks: [Task]

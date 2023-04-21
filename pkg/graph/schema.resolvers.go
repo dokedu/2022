@@ -19,12 +19,33 @@ func (r *mutationResolver) SignIn(ctx context.Context, input model.SignInInput) 
 
 // Owner is the resolver for the owner field.
 func (r *organisationResolver) Owner(ctx context.Context, obj *db.Organisation) (*db.User, error) {
-	panic(fmt.Errorf("not implemented: Owner - owner"))
+	user, err := r.DB.GetUserByID(ctx, db.GetUserByIDParams{
+		ID:             obj.OwnerID,
+		OrganisationID: obj.ID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
 
 // Users is the resolver for the users field.
 func (r *organisationResolver) Users(ctx context.Context, obj *db.Organisation) ([]*db.User, error) {
-	panic(fmt.Errorf("not implemented: Users - users"))
+	users, err := r.DB.ListUsers(ctx, obj.ID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	// return users as pointer
+	var usersPtr []*db.User
+	for _, user := range users {
+		usersPtr = append(usersPtr, &user)
+	}
+
+	return usersPtr, nil
 }
 
 // Me is the resolver for the me field.
@@ -49,43 +70,95 @@ func (r *queryResolver) Me(ctx context.Context) (*db.User, error) {
 	return &user, nil
 }
 
-// Organisations is the resolver for the organisations field.
-func (r *queryResolver) Organisations(ctx context.Context) ([]*db.Organisation, error) {
-	panic(fmt.Errorf("not implemented: Organisations - organisations"))
-}
-
 // Organisation is the resolver for the organisation field.
-func (r *queryResolver) Organisation(ctx context.Context, id string) (*db.Organisation, error) {
-	panic(fmt.Errorf("not implemented: Organisation - organisation"))
+func (r *queryResolver) Organisation(ctx context.Context) (*db.Organisation, error) {
+	orgId := "vTLyQPq-eXk_aHQuKw47A"
+
+	organisation, err := r.DB.GetOrganisationByID(ctx, orgId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &organisation, nil
 }
 
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*db.User, error) {
-	panic(fmt.Errorf("not implemented: Users - users"))
+	orgId := "vTLyQPq-eXk_aHQuKw47A"
+
+	users, err := r.DB.ListUsers(ctx, orgId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	// return users as pointer
+	var usersPtr []*db.User
+	for _, user := range users {
+		usersPtr = append(usersPtr, &user)
+	}
+
+	return usersPtr, nil
 }
 
 // User is the resolver for the user field.
 func (r *queryResolver) User(ctx context.Context, id string) (*db.User, error) {
-	panic(fmt.Errorf("not implemented: User - user"))
+	orgID := "vTLyQPq-eXk_aHQuKw47A"
+
+	user, err := r.DB.GetUserByID(ctx, db.GetUserByIDParams{
+		ID:             id,
+		OrganisationID: orgID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
 
 // Tasks is the resolver for the tasks field.
 func (r *queryResolver) Tasks(ctx context.Context) ([]*db.Task, error) {
-	panic(fmt.Errorf("not implemented: Tasks - tasks"))
+	organisationID := "vTLyQPq-eXk_aHQuKw47A"
+
+	tasks, err := r.DB.ListTasks(ctx, organisationID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	// return tasks as pointer
+	var tasksPtr []*db.Task
+	for _, task := range tasks {
+		tasksPtr = append(tasksPtr, &task)
+	}
+
+	return tasksPtr, nil
 }
 
 // Task is the resolver for the task field.
 func (r *queryResolver) Task(ctx context.Context, id string) (*db.Task, error) {
-	panic(fmt.Errorf("not implemented: Task - task"))
+	organisationID := "vTLyQPq-eXk_aHQuKw47A"
+
+	task, err := r.DB.GetTaskByID(ctx, db.GetTaskByIDParams{
+		ID:             id,
+		OrganisationID: organisationID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &task, nil
 }
 
 // User is the resolver for the user field.
 func (r *taskResolver) User(ctx context.Context, obj *db.Task) (*db.User, error) {
-	userId := "00f_dsi0rH1bR4kGMPmPY"
 	organisationID := "vTLyQPq-eXk_aHQuKw47A"
 
 	user, err := r.DB.GetUserByID(ctx, db.GetUserByIDParams{
-		ID:             userId,
+		ID:             obj.UserID,
 		OrganisationID: organisationID,
 	})
 
@@ -98,19 +171,22 @@ func (r *taskResolver) User(ctx context.Context, obj *db.Task) (*db.User, error)
 
 // DeletedAt is the resolver for the deletedAt field.
 func (r *taskResolver) DeletedAt(ctx context.Context, obj *db.Task) (*time.Time, error) {
+	// convert sql.NullTime to *time.Time
+	if obj.DeletedAt.Valid {
+		deletedAt := obj.DeletedAt.Time
+		return &deletedAt, nil
+	}
+
 	// return null
 	return nil, nil
-
-	//panic(fmt.Errorf("not implemented: DeletedAt - deletedAt"))
 }
 
 // Tasks is the resolver for the tasks field.
 func (r *userResolver) Tasks(ctx context.Context, obj *db.User) ([]*db.Task, error) {
-	userId := "00f_dsi0rH1bR4kGMPmPY"
 	organisationID := "vTLyQPq-eXk_aHQuKw47A"
 
 	tasks, err := r.DB.GetTasksByUserID(ctx, db.GetTasksByUserIDParams{
-		UserID:         userId,
+		UserID:         obj.ID,
 		OrganisationID: organisationID,
 	})
 

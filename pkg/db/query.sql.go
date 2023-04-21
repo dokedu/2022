@@ -9,6 +9,52 @@ import (
 	"context"
 )
 
+const getOrganisationByID = `-- name: GetOrganisationByID :one
+SELECT id, name, owner_id, created_at, deleted_at
+FROM organisations
+WHERE id = $1
+`
+
+func (q *Queries) GetOrganisationByID(ctx context.Context, id string) (Organisation, error) {
+	row := q.db.QueryRowContext(ctx, getOrganisationByID, id)
+	var i Organisation
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.OwnerID,
+		&i.CreatedAt,
+		&i.DeletedAt,
+	)
+	return i, err
+}
+
+const getTaskByID = `-- name: GetTaskByID :one
+SELECT id, name, description, user_id, organisation_id, created_at, deleted_at
+FROM tasks
+WHERE id = $1
+  AND organisation_id = $2
+`
+
+type GetTaskByIDParams struct {
+	ID             string `json:"id"`
+	OrganisationID string `json:"organisationID"`
+}
+
+func (q *Queries) GetTaskByID(ctx context.Context, arg GetTaskByIDParams) (Task, error) {
+	row := q.db.QueryRowContext(ctx, getTaskByID, arg.ID, arg.OrganisationID)
+	var i Task
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Description,
+		&i.UserID,
+		&i.OrganisationID,
+		&i.CreatedAt,
+		&i.DeletedAt,
+	)
+	return i, err
+}
+
 const getTasksByUserID = `-- name: GetTasksByUserID :many
 SELECT id, name, description, user_id, organisation_id, created_at, deleted_at
 FROM tasks

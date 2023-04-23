@@ -35,6 +35,7 @@ type Task {
     description: String!
     user: User!
     createdAt: Time!
+    deletedAt: Time
 }
 
 input SignInInput {
@@ -101,11 +102,5 @@ type Query {
 type Mutation {
     createTask(input: CreateTaskInput!): Task!
     updateTask(input: UpdateTaskInput!): Task!
+    deleteTask(id: ID!): Task!
 }
-
-#type Subscription {
-#    userCreated: User
-#    taskCreated: Task
-#    taskDeleted: Task
-#    taskUpdated: Task
-#}

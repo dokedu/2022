@@ -8,10 +8,9 @@ import (
 	"context"
 	"example/pkg/db"
 	"example/pkg/graph/model"
+	"fmt"
+	"time"
 )
-
-var orgId = "vTLyQPq-eXk_aHQuKw47A"
-var userId = "00f_dsi0rH1bR4kGMPmPY"
 
 // CreateTask is the resolver for the createTask field.
 func (r *mutationResolver) CreateTask(ctx context.Context, input model.CreateTaskInput) (*db.Task, error) {
@@ -43,7 +42,20 @@ func (r *mutationResolver) UpdateTask(ctx context.Context, input model.UpdateTas
 	}
 
 	return &task, nil
+}
 
+// DeleteTask is the resolver for the deleteTask field.
+func (r *mutationResolver) DeleteTask(ctx context.Context, id string) (*db.Task, error) {
+	task, err := r.DB.DeleteTask(ctx, db.DeleteTaskParams{
+		ID:             id,
+		OrganisationID: orgId,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &task, nil
 }
 
 // Owner is the resolver for the owner field.
@@ -145,6 +157,11 @@ func (r *taskResolver) User(ctx context.Context, obj *db.Task) (*db.User, error)
 	return &user, nil
 }
 
+// DeletedAt is the resolver for the deletedAt field.
+func (r *taskResolver) DeletedAt(ctx context.Context, obj *db.Task) (*time.Time, error) {
+	panic(fmt.Errorf("not implemented: DeletedAt - deletedAt"))
+}
+
 // Tasks is the resolver for the tasks field.
 func (r *userResolver) Tasks(ctx context.Context, obj *db.User) (*model.TaskConnection, error) {
 	tasks, err := r.DB.ListTasks(ctx, orgId)
@@ -191,3 +208,12 @@ type organisationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
 type taskResolver struct{ *Resolver }
 type userResolver struct{ *Resolver }
+
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//     it when you're done.
+//   - You have helper methods in this file. Move them out to keep these resolver files clean.
+var orgId = "vTLyQPq-eXk_aHQuKw47A"
+var userId = "00f_dsi0rH1bR4kGMPmPY"

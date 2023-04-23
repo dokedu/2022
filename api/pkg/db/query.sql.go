@@ -42,6 +42,34 @@ func (q *Queries) CreateTask(ctx context.Context, arg CreateTaskParams) (Task, e
 	return i, err
 }
 
+const deleteTask = `-- name: DeleteTask :one
+DELETE
+FROM tasks
+WHERE id = $1
+  AND organisation_id = $2
+RETURNING id, name, description, user_id, organisation_id, created_at, deleted_at
+`
+
+type DeleteTaskParams struct {
+	ID             string `json:"id"`
+	OrganisationID string `json:"organisationID"`
+}
+
+func (q *Queries) DeleteTask(ctx context.Context, arg DeleteTaskParams) (Task, error) {
+	row := q.db.QueryRowContext(ctx, deleteTask, arg.ID, arg.OrganisationID)
+	var i Task
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Description,
+		&i.UserID,
+		&i.OrganisationID,
+		&i.CreatedAt,
+		&i.DeletedAt,
+	)
+	return i, err
+}
+
 const getOrganisationByID = `-- name: GetOrganisationByID :one
 SELECT id, name, owner_id, created_at, deleted_at
 FROM organisations

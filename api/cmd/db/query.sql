@@ -43,3 +43,10 @@ SET name        = $1,
 WHERE id = $3
   AND organisation_id = $4
 RETURNING *;
+
+-- name: DeleteTask :one
+DELETE
+FROM tasks
+WHERE id = $1
+  AND organisation_id = $2
+RETURNING *;

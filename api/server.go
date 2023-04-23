@@ -6,6 +6,7 @@ import (
 	"example/pkg/db"
 	"example/pkg/graph"
 	"example/pkg/jwt"
+	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/labstack/echo/v4"
 	"log"
 	"net/http"
@@ -41,6 +42,11 @@ func main() {
 
 	e.Use(middleware.Auth(signer))
 
+	// add options handler
+	e.OPTIONS("/graphql", func(c echo.Context) error {
+		return c.String(http.StatusOK, "")
+	})
+
 	// add queries to context
 	e.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
@@ -54,9 +60,14 @@ func main() {
 		port = defaultPort
 	}
 
+	// add cors
+	e.Use(middleware.CORS())
+
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
 		DB: queries,
 	}}))
+
+	srv.AddTransport(&transport.Websocket{})
 
 	playgroundHandler := playground.Handler("GraphQL playground", "/query")
 

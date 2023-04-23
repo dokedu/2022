@@ -1,8 +1,8 @@
-.idea/
+**/*/.idea/
+.idea
 **/*/node_modules/
-docker/tmp/
+node_modules
 .nuxt
 .env
 .yarn
-.env
 .DS_Store

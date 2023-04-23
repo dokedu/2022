@@ -2,6 +2,22 @@
 
 package model
 
+import (
+	"example/pkg/db"
+)
+
+type CreateTaskInput struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}
+
+type PageInfo struct {
+	HasNextPage     bool    `json:"hasNextPage"`
+	HasPreviousPage bool    `json:"hasPreviousPage"`
+	StartCursor     *string `json:"startCursor,omitempty"`
+	EndCursor       *string `json:"endCursor,omitempty"`
+}
+
 type SignInInput struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -9,4 +25,38 @@ type SignInInput struct {
 
 type SignInPayload struct {
 	Token string `json:"token"`
+}
+
+type SignUpInput struct {
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type TaskConnection struct {
+	Edges      []*TaskEdge `json:"edges,omitempty"`
+	PageInfo   *PageInfo   `json:"pageInfo"`
+	TotalCount int         `json:"totalCount"`
+}
+
+type TaskEdge struct {
+	Cursor string   `json:"cursor"`
+	Node   *db.Task `json:"node,omitempty"`
+}
+
+type UpdateTaskInput struct {
+	ID          string  `json:"id"`
+	Name        *string `json:"name,omitempty"`
+	Description *string `json:"description,omitempty"`
+}
+
+type UserConnection struct {
+	Edges      []*UserEdge `json:"edges,omitempty"`
+	PageInfo   *PageInfo   `json:"pageInfo"`
+	TotalCount int         `json:"totalCount"`
+}
+
+type UserEdge struct {
+	Cursor string   `json:"cursor"`
+	Node   *db.User `json:"node,omitempty"`
 }

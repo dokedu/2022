@@ -8,13 +8,42 @@ import (
 	"context"
 	"example/pkg/db"
 	"example/pkg/graph/model"
-	"fmt"
-	"time"
 )
 
-// SignIn is the resolver for the signIn field.
-func (r *mutationResolver) SignIn(ctx context.Context, input model.SignInInput) (*model.SignInPayload, error) {
-	panic(fmt.Errorf("not implemented: SignIn - signIn"))
+var orgId = "vTLyQPq-eXk_aHQuKw47A"
+var userId = "00f_dsi0rH1bR4kGMPmPY"
+
+// CreateTask is the resolver for the createTask field.
+func (r *mutationResolver) CreateTask(ctx context.Context, input model.CreateTaskInput) (*db.Task, error) {
+	task, err := r.DB.CreateTask(ctx, db.CreateTaskParams{
+		OrganisationID: orgId,
+		UserID:         userId,
+		Name:           input.Name,
+		Description:    input.Description,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &task, nil
+}
+
+// UpdateTask is the resolver for the updateTask field.
+func (r *mutationResolver) UpdateTask(ctx context.Context, input model.UpdateTaskInput) (*db.Task, error) {
+	task, err := r.DB.UpdateTask(ctx, db.UpdateTaskParams{
+		Name:           *input.Name,
+		Description:    *input.Description,
+		ID:             input.ID,
+		OrganisationID: orgId,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &task, nil
+
 }
 
 // Owner is the resolver for the owner field.
@@ -32,134 +61,81 @@ func (r *organisationResolver) Owner(ctx context.Context, obj *db.Organisation) 
 }
 
 // Users is the resolver for the users field.
-func (r *organisationResolver) Users(ctx context.Context, obj *db.Organisation) ([]*db.User, error) {
+func (r *organisationResolver) Users(ctx context.Context, obj *db.Organisation) (*model.UserConnection, error) {
 	users, err := r.DB.ListUsers(ctx, obj.ID)
 
 	if err != nil {
 		return nil, err
 	}
 
-	// return users as pointer
-	var usersPtr []*db.User
-	for _, user := range users {
-		usersPtr = append(usersPtr, &user)
-	}
+	// return users as model.UserEdge
+	edges := make([]*model.UserEdge, len(users))
 
-	return usersPtr, nil
+	return &model.UserConnection{
+		Edges:      edges,
+		PageInfo:   nil,
+		TotalCount: 0,
+	}, nil
 }
 
-// Me is the resolver for the me field.
-func (r *queryResolver) Me(ctx context.Context) (*db.User, error) {
-	userId := "00f_dsi0rH1bR4kGMPmPY"
-	organisationID := "vTLyQPq-eXk_aHQuKw47A"
-
-	user, err := r.DB.GetUserByID(ctx, db.GetUserByIDParams{
-		ID:             userId,
-		OrganisationID: organisationID,
-	})
-
-	// if error "sql: no rows in result set" return custom error message
-	if err != nil && err.Error() == "sql: no rows in result set" {
-		return nil, fmt.Errorf("user not found")
-	}
-
+// Tasks is the resolver for the tasks field.
+func (r *queryResolver) Tasks(ctx context.Context, first *int, after *string, last *int, before *string) (*model.TaskConnection, error) {
+	tasks, err := r.DB.ListTasks(ctx, orgId)
 	if err != nil {
 		return nil, err
 	}
 
-	return &user, nil
-}
+	// return tasks as model.TaskEdge
+	edges := make([]*model.TaskEdge, len(tasks))
 
-// Organisation is the resolver for the organisation field.
-func (r *queryResolver) Organisation(ctx context.Context) (*db.Organisation, error) {
-	orgId := "vTLyQPq-eXk_aHQuKw47A"
-
-	organisation, err := r.DB.GetOrganisationByID(ctx, orgId)
-
-	if err != nil {
-		return nil, err
+	// add tasks to edges
+	for i, task := range tasks {
+		node := task
+		edges[i] = &model.TaskEdge{
+			Cursor: "",
+			Node:   &node,
+		}
 	}
 
-	return &organisation, nil
+	return &model.TaskConnection{
+		Edges:      edges,
+		PageInfo:   nil,
+		TotalCount: 0,
+	}, nil
 }
 
 // Users is the resolver for the users field.
-func (r *queryResolver) Users(ctx context.Context) ([]*db.User, error) {
-	orgId := "vTLyQPq-eXk_aHQuKw47A"
-
+func (r *queryResolver) Users(ctx context.Context, first *int, after *string, last *int, before *string) (*model.UserConnection, error) {
 	users, err := r.DB.ListUsers(ctx, orgId)
 
 	if err != nil {
 		return nil, err
 	}
 
-	// return users as pointer
-	var usersPtr []*db.User
-	for _, user := range users {
-		usersPtr = append(usersPtr, &user)
+	// return users as model.UserEdge
+	edges := make([]*model.UserEdge, len(users))
+
+	// add users to edges
+	for i, user := range users {
+		node := user
+		edges[i] = &model.UserEdge{
+			Cursor: "",
+			Node:   &node,
+		}
 	}
 
-	return usersPtr, nil
-}
-
-// User is the resolver for the user field.
-func (r *queryResolver) User(ctx context.Context, id string) (*db.User, error) {
-	orgID := "vTLyQPq-eXk_aHQuKw47A"
-
-	user, err := r.DB.GetUserByID(ctx, db.GetUserByIDParams{
-		ID:             id,
-		OrganisationID: orgID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &user, nil
-}
-
-// Tasks is the resolver for the tasks field.
-func (r *queryResolver) Tasks(ctx context.Context) ([]*db.Task, error) {
-	organisationID := "vTLyQPq-eXk_aHQuKw47A"
-
-	tasks, err := r.DB.ListTasks(ctx, organisationID)
-
-	if err != nil {
-		return nil, err
-	}
-
-	// return tasks as pointer
-	var tasksPtr []*db.Task
-	for _, task := range tasks {
-		tasksPtr = append(tasksPtr, &task)
-	}
-
-	return tasksPtr, nil
-}
-
-// Task is the resolver for the task field.
-func (r *queryResolver) Task(ctx context.Context, id string) (*db.Task, error) {
-	organisationID := "vTLyQPq-eXk_aHQuKw47A"
-
-	task, err := r.DB.GetTaskByID(ctx, db.GetTaskByIDParams{
-		ID:             id,
-		OrganisationID: organisationID,
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &task, nil
+	return &model.UserConnection{
+		Edges:      edges,
+		PageInfo:   nil,
+		TotalCount: 0,
+	}, nil
 }
 
 // User is the resolver for the user field.
 func (r *taskResolver) User(ctx context.Context, obj *db.Task) (*db.User, error) {
-	organisationID := "vTLyQPq-eXk_aHQuKw47A"
-
 	user, err := r.DB.GetUserByID(ctx, db.GetUserByIDParams{
 		ID:             obj.UserID,
-		OrganisationID: organisationID,
+		OrganisationID: orgId,
 	})
 
 	if err != nil {
@@ -169,40 +145,30 @@ func (r *taskResolver) User(ctx context.Context, obj *db.Task) (*db.User, error)
 	return &user, nil
 }
 
-// DeletedAt is the resolver for the deletedAt field.
-func (r *taskResolver) DeletedAt(ctx context.Context, obj *db.Task) (*time.Time, error) {
-	// convert sql.NullTime to *time.Time
-	if obj.DeletedAt.Valid {
-		deletedAt := obj.DeletedAt.Time
-		return &deletedAt, nil
-	}
-
-	// return null
-	return nil, nil
-}
-
 // Tasks is the resolver for the tasks field.
-func (r *userResolver) Tasks(ctx context.Context, obj *db.User) ([]*db.Task, error) {
-	organisationID := "vTLyQPq-eXk_aHQuKw47A"
-
-	tasks, err := r.DB.GetTasksByUserID(ctx, db.GetTasksByUserIDParams{
-		UserID:         obj.ID,
-		OrganisationID: organisationID,
-	})
+func (r *userResolver) Tasks(ctx context.Context, obj *db.User) (*model.TaskConnection, error) {
+	tasks, err := r.DB.ListTasks(ctx, orgId)
 
 	if err != nil {
 		return nil, err
 	}
 
-	// return tasks as pointer
-	var tasksPtr []*db.Task
-	for _, task := range tasks {
-		tasksPtr = append(tasksPtr, &task)
+	// return tasks as model.TaskEdge
+	edges := make([]*model.TaskEdge, len(tasks))
+
+	// add tasks to edges
+	for i, task := range tasks {
+		node := task
+		edges[i] = &model.TaskEdge{
+			Cursor: "",
+			Node:   &node,
+		}
 	}
 
-	return tasksPtr, nil
-
-	//panic(fmt.Errorf("not implemented: Tasks - tasks"))
+	return &model.TaskConnection{
+		Edges:      edges,
+		TotalCount: 0,
+	}, nil
 }
 
 // Mutation returns MutationResolver implementation.

@@ -9,6 +9,39 @@ import (
 	"context"
 )
 
+const createTask = `-- name: CreateTask :one
+INSERT INTO tasks (organisation_id, user_id, name, description)
+VALUES ($1, $2, $3, $4)
+RETURNING id, name, description, user_id, organisation_id, created_at, deleted_at
+`
+
+type CreateTaskParams struct {
+	OrganisationID string `json:"organisationID"`
+	UserID         string `json:"userID"`
+	Name           string `json:"name"`
+	Description    string `json:"description"`
+}
+
+func (q *Queries) CreateTask(ctx context.Context, arg CreateTaskParams) (Task, error) {
+	row := q.db.QueryRowContext(ctx, createTask,
+		arg.OrganisationID,
+		arg.UserID,
+		arg.Name,
+		arg.Description,
+	)
+	var i Task
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Description,
+		&i.UserID,
+		&i.OrganisationID,
+		&i.CreatedAt,
+		&i.DeletedAt,
+	)
+	return i, err
+}
+
 const getOrganisationByID = `-- name: GetOrganisationByID :one
 SELECT id, name, owner_id, created_at, deleted_at
 FROM organisations
@@ -199,4 +232,40 @@ func (q *Queries) ListUsers(ctx context.Context, organisationID string) ([]User,
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateTask = `-- name: UpdateTask :one
+UPDATE tasks
+SET name        = $1,
+    description = $2
+WHERE id = $3
+  AND organisation_id = $4
+RETURNING id, name, description, user_id, organisation_id, created_at, deleted_at
+`
+
+type UpdateTaskParams struct {
+	Name           string `json:"name"`
+	Description    string `json:"description"`
+	ID             string `json:"id"`
+	OrganisationID string `json:"organisationID"`
+}
+
+func (q *Queries) UpdateTask(ctx context.Context, arg UpdateTaskParams) (Task, error) {
+	row := q.db.QueryRowContext(ctx, updateTask,
+		arg.Name,
+		arg.Description,
+		arg.ID,
+		arg.OrganisationID,
+	)
+	var i Task
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Description,
+		&i.UserID,
+		&i.OrganisationID,
+		&i.CreatedAt,
+		&i.DeletedAt,
+	)
+	return i, err
 }

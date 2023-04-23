@@ -10,7 +10,7 @@ type Organisation {
     owner: User!
     createdAt: Time!
 
-    users: [User]
+    users: UserConnection
 }
 
 enum UserRole {
@@ -26,7 +26,7 @@ type User {
     email: String!
     createdAt: Time!
 
-    tasks: [Task]
+    tasks: TaskConnection
 }
 
 type Task {
@@ -35,7 +35,6 @@ type Task {
     description: String!
     user: User!
     createdAt: Time!
-    deletedAt: Time
 }
 
 input SignInInput {
@@ -47,15 +46,66 @@ type SignInPayload {
     token: String!
 }
 
-type Mutation {
-    signIn(input: SignInInput!): SignInPayload!
+input SignUpInput {
+    name: String!
+    email: String!
+    password: String!
+}
+
+input CreateTaskInput {
+    name: String!
+    description: String!
+}
+
+input UpdateTaskInput {
+    id: ID!
+    name: String
+    description: String
+}
+
+type PageInfo {
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+    endCursor: String
+}
+
+type UserEdge {
+    cursor: String!
+    node: User
+}
+
+type TaskEdge {
+    cursor: String!
+    node: Task
+}
+
+type UserConnection {
+    edges: [UserEdge]
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type TaskConnection {
+    edges: [TaskEdge]
+    pageInfo: PageInfo!
+    totalCount: Int!
 }
 
 type Query {
-    me: User
-    organisation: Organisation
-    users: [User]
-    user(id: ID!): User
-    tasks: [Task]
-    task(id: ID!): Task
+    tasks(first: Int, after: String, last: Int, before: String): TaskConnection!
+    users(first: Int, after: String, last: Int, before: String): UserConnection!
 }
+
+
+type Mutation {
+    createTask(input: CreateTaskInput!): Task!
+    updateTask(input: UpdateTaskInput!): Task!
+}
+
+#type Subscription {
+#    userCreated: User
+#    taskCreated: Task
+#    taskDeleted: Task
+#    taskUpdated: Task
+#}

@@ -30,3 +30,16 @@ SELECT *
 FROM tasks
 WHERE user_id = $1
   AND organisation_id = $2;
+
+-- name: CreateTask :one
+INSERT INTO tasks (organisation_id, user_id, name, description)
+VALUES ($1, $2, $3, $4)
+RETURNING *;
+
+-- name: UpdateTask :one
+UPDATE tasks
+SET name        = $1,
+    description = $2
+WHERE id = $3
+  AND organisation_id = $4
+RETURNING *;

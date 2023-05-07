@@ -22,7 +22,7 @@ export default [
     path: '/events/export',
     name: 'events_export',
     meta: {
-      layout: 'Default',
+      layout: 'Print',
       breadcrumbs: [
         {
           name: 'Projekte',

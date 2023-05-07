@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import DefaultLayout from './layouts/DefaultLayout.vue'
 import LoginLayout from './layouts/LoginLayout.vue'
+import PrintLayout from './layouts/PrintLayout.vue'
 import WideLayout from './layouts/WideLayout.vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
@@ -34,6 +35,8 @@ const CurrentLayout = computed(() => {
       return LoginLayout
     case 'Wide':
       return WideLayout
+    case 'Print':
+      return PrintLayout
     default:
       return DefaultLayout
   }

@@ -1,5 +1,6 @@
 <template>
-  <div v-if="store.organisations.length > 1" class="flex items-center bg-orange-200 p-2 text-sm text-orange-600">
+  <div v-if="store.organisations.length > 1"
+    class="flex print:hidden items-center bg-orange-200 p-2 text-sm text-orange-600">
     Du bist in {{ store.organisations.length }} Organisationen und befindest dich derzeit in
     <strong>&nbsp;"{{ store.organisations.find((a) => a.id === store.organisationId)?.name }}"</strong>.
     <button class="ml-1 block rounded-md bg-orange-300 px-1 py-0.5 text-xs font-medium text-orange-700"
@@ -103,9 +104,8 @@
 <script lang="ts" setup>
 import { useStore } from '../store/store'
 import DLogo from '../components/DLogo.vue'
-import DButton from '../components/ui/DButton.vue'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/vue/outline'
+import { MenuIcon, XIcon } from '@heroicons/vue/outline'
 import DIcon from './ui/DIcon.vue'
 import { computed } from 'vue'
 

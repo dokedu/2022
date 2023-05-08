@@ -1,6 +1,5 @@
 const PageStudents = () => import('../pages/students/index.vue')
 const PageStudent = () => import('../pages/students/:id/index.vue')
-const PageStudentEntries = () => import('../pages/students/:id/entries.vue')
 
 export default [
   {
@@ -32,26 +31,5 @@ export default [
       ],
     },
     component: PageStudent,
-  },
-  {
-    path: '/students/:id/entries',
-    name: 'student_entries',
-    meta: {
-      layout: 'Default',
-      breadcrumbs: [
-        {
-          name: 'Schüler',
-          to: { name: 'students' },
-        },
-        {
-          name: ':id',
-          to: { name: 'student' },
-        },
-        {
-          name: 'Einträge',
-        },
-      ],
-    },
-    component: PageStudentEntries,
   },
 ]

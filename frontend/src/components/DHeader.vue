@@ -1,9 +1,10 @@
 <template>
   <div v-if="store.organisations.length > 1"
-    class="flex print:hidden items-center bg-orange-200 p-2 text-sm text-orange-600">
+    class="flex print:hidden items-center select-none bg-orange-100 p-2 text-sm text-orange-600">
     Du bist in {{ store.organisations.length }} Organisationen und befindest dich derzeit in
     <strong>&nbsp;"{{ store.organisations.find((a) => a.id === store.organisationId)?.name }}"</strong>.
-    <button class="ml-1 block rounded-md bg-orange-300 px-1 py-0.5 text-xs font-medium text-orange-700"
+    <button
+      class="ml-1 block cursor-default hover:bg-orange-300 rounded-md bg-orange-200 px-1 py-0.5 text-xs font-medium text-orange-700"
       @click="$router.push('/login/workspaces')">
       Wechseln
     </button>

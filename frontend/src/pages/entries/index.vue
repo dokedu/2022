@@ -191,7 +191,6 @@ const { data: entries, mutate: refreshEntries } = useSWRVX<{ data: (Entry & { ac
 watch(
   limit,
   async (a, b) => {
-    console.log('watch: limit')
     if (JSON.stringify(a) === JSON.stringify(b)) return
     offset.value = "0"
     await refreshEntries()
@@ -202,7 +201,6 @@ watch(
 watch(
   studentFilter,
   async (a, b) => {
-    console.log('watch: studentFilter')
     if (JSON.stringify(a) === JSON.stringify(b)) return
     offset.value = "0"
     await refreshEntries()
@@ -213,7 +211,6 @@ watch(
 watch(
   accountFilter,
   async (a, b) => {
-    console.log('watch: accountFilter')
     if (JSON.stringify(a) === JSON.stringify(b)) return
     offset.value = "0"
     await refreshEntries()
@@ -224,7 +221,6 @@ watch(
 watch(
   sorting,
   async (a, b) => {
-    console.log('watch: sorting')
     if (JSON.stringify(a) === JSON.stringify(b)) return
     offset.value = "0"
     await refreshEntries()

@@ -74,12 +74,7 @@
                         <td class="p-2 align-top text-sm text-neutral-500">{{ competence.name }}
                         </td>
                         <td class="w-[50px] whitespace-nowrap p-2 text-center align-top text-sm text-neutral-500">
-                          {{
-                            competence.grades.length > 0
-                            ? `${Math.min(...competence.grades)} -
-                                                    ${Math.max(...competence.grades)}`
-                            : '-'
-                          }}
+                          {{ gradeToText(competence.grades) }}
                         </td>
                       </tr>
                     </tbody>
@@ -120,6 +115,17 @@ import { mutate } from 'swrv'
 import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import { InformationCircleIcon } from '@heroicons/vue/solid'
 import DButton from '../../components/ui/DButton.vue'
+
+function gradeToText(grades: number[]): string {
+  if (grades.length > 1) {
+    return `${Math.min(...grades)} – ${Math.max(...grades)}`
+  } else if (grades.length = 1) {
+    return grades[0].toString()
+  } else {
+    return '-'
+  }
+}
+
 
 const filter = ref({
   starts_at: null,

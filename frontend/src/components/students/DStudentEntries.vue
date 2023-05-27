@@ -6,7 +6,7 @@
         class="cursor-pointer text-blue-500 hover:text-blue-700">alle
         Einträge</router-link>
     </div>
-    <div class="grid h-36 w-full grid-cols-1 gap-2 rounded-lg sm:grid-cols-3">
+    <div class="grid min-h-[136px] w-full grid-cols-1 gap-2 rounded-lg sm:grid-cols-3">
       <router-link v-for="entry in entries" :key="entry.id"
         class="flex w-full flex-col justify-between rounded-lg border bg-white py-4 px-5 hover:shadow"
         :to="{ name: 'entry', params: { id: entry.id } }">
@@ -22,17 +22,17 @@
   </div>
   <div v-if="entries?.length === 0" class="mt-10">
     <div class="mb-2 text-xl">Einträge</div>
-    <div class="flex h-36 w-full flex-col items-center justify-center rounded-lg border">
+    <div class="flex min-h-[136px] w-full flex-col items-center justify-center rounded-lg border">
       <div class="mb-4 text-slate-500">Keine Einträge gefunden.</div>
       <DButton look="primary" size="28" :to="{ name: 'entry_new' }">Eintrag erstellen</DButton>
     </div>
   </div>
   <div v-if="!entries" class="mt-10">
     <div class="mb-2 text-xl">Einträge</div>
-    <div class="flex h-36 w-full space-x-2 rounded-lg">
-      <div class="h-full w-full animate-pulse rounded-lg border bg-slate-50"></div>
-      <div class="h-full w-full animate-pulse rounded-lg border bg-slate-50"></div>
-      <div class="h-full w-full animate-pulse rounded-lg border bg-slate-50"></div>
+    <div class="flex min-h-[136px] w-full space-x-2 rounded-lg">
+      <div class="h-[136px] w-full animate-pulse rounded-lg border bg-slate-50"></div>
+      <div class="h-[136px] w-full animate-pulse rounded-lg border bg-slate-50"></div>
+      <div class="h-[136px] w-full animate-pulse rounded-lg border bg-slate-50"></div>
     </div>
   </div>
 </template>

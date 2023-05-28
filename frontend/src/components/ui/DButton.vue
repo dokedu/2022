@@ -1,10 +1,7 @@
 <template>
-  <component
-    :is="component"
+  <component :is="component"
     class="inline-block flex min-w-fit cursor-pointer select-none items-center justify-center rounded-lg align-middle focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-    :class="classes"
-    :to="to"
-  >
+    :class="classes" :to="to">
     <slot />
   </component>
 </template>
@@ -56,7 +53,7 @@ export default {
       }
 
       if (props.disabled) {
-        properties += 'text-white bg-slate-100 text-slate-400 cursor-not-allowed'
+        properties += 'text-white bg-gray-100 text-gray-400 cursor-not-allowed'
         return properties
       }
 
@@ -71,10 +68,10 @@ export default {
           properties += 'text-red-700 bg-red-50 hover:bg-red-100'
           break
         case 'link':
-          properties += 'bg-transparent hover:bg-slate-100'
+          properties += 'bg-transparent hover:bg-gray-100'
           break
         default:
-          properties += 'bg-slate-100 hover:bg-slate-200'
+          properties += 'bg-gray-100 hover:bg-gray-200'
           break
       }
       return properties

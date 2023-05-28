@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4" data-cy="reports">
     <router-link v-for="report in reports" :key="report.id"
-      class="mb-2 grid grid-cols-4 items-center gap-2 rounded-lg border border-slate-300 p-3 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 md:grid-cols-4"
+      class="mb-2 grid grid-cols-4 items-center gap-2 rounded-lg border border-gray-300 p-3 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 md:grid-cols-4"
       :to="{ name: 'report', params: { id: report.id } }" data-cy="report-link">
       <span class="min-w-max">{{ report.student.first_name }} {{ report.student.last_name }}</span>
       <div class="text-sm">{{ parseDateCalendar(report.from) }} - {{ parseDateCalendar(report.to) }}</div>
@@ -12,10 +12,10 @@
     </router-link>
   </div>
 
-  <div v-show="!reports" class="text-slate-600">Hier gibt es noch keine Reports.</div>
+  <div v-show="!reports" class="text-gray-600">Hier gibt es noch keine Reports.</div>
 
   <div v-show="reports?.length === 0"
-    class="flex w-full items-center justify-center rounded-md border border-dashed p-8 text-slate-600">
+    class="flex w-full items-center justify-center rounded-md border border-dashed p-8 text-gray-600">
     <div class="">Hier gibt es noch keine Berichte.</div>
   </div>
 

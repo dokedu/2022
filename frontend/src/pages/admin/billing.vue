@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-3 text-xl font-medium">Abrechnung</div>
-    <p class="text-slate-500">
+    <p class="text-gray-500">
       Du hast {{ users?.data.length }} Nutzer. Das entspricht
       {{ users?.data.length * 5 > 25 ? users?.data.length * 5 : 25 }} Euro / monatlich bei jährlicher Abrechnung. Also
       {{ users?.data.length * 5 > 25 ? users?.data.length * 5 * 12 : 25 * 12 }} Euro im Jahr.

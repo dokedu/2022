@@ -23,11 +23,11 @@ const parseStatus = (status: string) => {
 const parseStatusColor = (status: string) => {
   switch (status) {
     case 'pending':
-      return 'bg-orange-200 text-orange-900'
+      return 'bg-orange-100 text-orange-900'
     case 'done':
-      return 'bg-green-200 text-green-900'
+      return 'bg-green-100 text-green-900'
     case 'error':
-      return 'bg-red-200 text-red-900'
+      return 'bg-red-100 text-red-900'
   }
 }
 </script>

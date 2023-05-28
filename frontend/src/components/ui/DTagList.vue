@@ -3,7 +3,7 @@
     <DDropdown v-if="editable" ref="inputRef" v-model="input" name="tag_input" :label="label" :placeholder="placeholder"
       :options="dropdownOptions" @blur="addTag" @search="setTagValue" @keydown.enter="addTag" />
     <div class="flex flex-col">
-      <label class="mb-1 text-xs text-slate-500">Aktuelle Tags</label>
+      <label class="mb-1 text-xs text-gray-500">Aktuelle Labels</label>
       <div class="mt-2 flex flex-wrap gap-2">
         <ItemTag v-for="(tag, index) in tags" :key="tag.id" :removable="editable" @remove="removeTag(index)">
           {{ tag.name }}

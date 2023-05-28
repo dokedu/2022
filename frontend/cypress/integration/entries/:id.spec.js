@@ -4,7 +4,6 @@ let _account
 let _supabase
 beforeEach(async () => {
   const { supabase, account } = await promisify(cy.init_user())
-  console.log(account)
   _account = account
   _supabase = supabase
 })

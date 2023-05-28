@@ -2,19 +2,19 @@
   <div v-if="event" class="mt-4">
     <div class="flex items-center justify-between">
       <DInput v-model="event.title" name="title" type="text" placeholder="Name vom Event"
-        class="border-1 rounded-lg border-slate-300" />
+        class="border-1 rounded-lg border-gray-300" />
       <DButton look="primary" @click="save">Speichern</DButton>
     </div>
     <DTextarea v-model="event.body" name="body" placeholder="Beschreibe das Event"
-      class="border-1 mt-4 w-full rounded-lg border-slate-300" rows="10" />
-    <div class="mt-4 flex space-x-2 text-sm text-slate-500">
+      class="border-1 mt-4 w-full rounded-lg border-gray-300" rows="10" />
+    <div class="mt-4 flex space-x-2 text-sm text-gray-500">
       <div>
         <DInput id="ends_at" v-model="event.starts_at" label="Startet am" name="starts_at" type="datetime-local"
-          class="border-1 w-full rounded-lg border-slate-300" />
+          class="border-1 w-full rounded-lg border-gray-300" />
       </div>
       <div>
         <DInput id="starts_at" v-model="event.ends_at" label="Endet am" name="ends_at" type="datetime-local"
-          class="border-1 w-full rounded-lg border-slate-300" />
+          class="border-1 w-full rounded-lg border-gray-300" />
       </div>
     </div>
   </div>

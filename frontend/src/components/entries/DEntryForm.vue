@@ -1,7 +1,7 @@
 <template>
-  <div class="mb-8 rounded-lg border border-slate-100 p-4 shadow-md">
+  <div class="mb-8 rounded-lg border border-gray-100 p-4 shadow-md">
     <div class="mb-6 flex items-baseline justify-between">
-      <DInput v-model="date" name="date" type="date" class="border-1 rounded-lg border-slate-300" />
+      <DInput v-model="date" name="date" type="date" class="border-1 rounded-lg border-gray-300" />
       <DButton look="primary" data-cy="button-create" @click="onCreate">Speichern</DButton>
     </div>
 
@@ -31,14 +31,14 @@
 
         <DButton size="28" look="secondary" class="w-full space-x-2 sm:w-auto" @click="showTags = !showTags">
           <DIcon name="plus" />
-          <div>Tags hinzufügen</div>
+          <div>Label hinzufügen</div>
         </DButton>
       </div>
     </div>
 
     <div v-if="showTags" class="mb-4">
-      <DTagList v-model="currentTags" :allow-create="canCreateTags" label="Tag suchen oder hinzufügen"
-        placeholder="Tag hinzufügen"></DTagList>
+      <DTagList v-model="currentTags" :allow-create="canCreateTags" label="Label suchen oder hinzufügen"
+        placeholder="Label hinzufügen" />
     </div>
 
     <DEntryFiles />

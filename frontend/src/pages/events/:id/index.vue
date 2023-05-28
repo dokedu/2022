@@ -2,7 +2,7 @@
   <div v-if="event" class="mt-4">
     <div class="mb-8">
       <img v-show="image?.signedUrl" :src="image?.signedUrl" alt="" class="h-48 w-full rounded-lg object-cover" />
-      <div v-show="!image" class="flex h-48 w-full items-center justify-center rounded-lg bg-slate-100 object-cover">
+      <div v-show="!image" class="flex h-48 w-full items-center justify-center rounded-lg bg-gray-100 object-cover">
         <DIcon name="image" />
       </div>
     </div>
@@ -15,8 +15,8 @@
         <DButton look="secondary" :to="{ name: 'event_edit' }">Bearbeiten</DButton>
       </div>
     </div>
-    <div class="text-slate-700">{{ event.body }}</div>
-    <div class="mt-4 flex space-x-2 text-sm text-slate-500">
+    <div class="text-gray-700">{{ event.body }}</div>
+    <div class="mt-4 flex space-x-2 text-sm text-gray-500">
       <div>{{ parseDate(event.starts_at) }}</div>
       <div>-</div>
       <div>{{ parseDate(event.ends_at) }}</div>

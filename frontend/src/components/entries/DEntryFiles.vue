@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-wrap space-x-2">
     <div v-for="file in entryStore.files" :key="file.id"
-      class="mb-2 inline-flex rounded-lg bg-slate-100 p-1 text-slate-700">
+      class="mb-2 inline-flex rounded-lg bg-gray-100 p-1 text-gray-700">
       <div>{{ decodeFileName(file.file_name) }}</div>
-      <div class="ml-1 cursor-pointer rounded-lg hover:bg-slate-200" @click="entryStore.deleteFile(file)">
+      <div class="ml-1 cursor-pointer rounded-lg hover:bg-gray-200" @click="entryStore.deleteFile(file)">
         <IconX />
       </div>
     </div>
@@ -11,7 +11,7 @@
   <DModal :open="open" @close="open = false">
     <div class="mb-4">Datei auswählen oder hierher ziehen</div>
     <input type="file" name="" placeholder="Drag and drop files here"
-      class="flex min-h-[30vh] w-full items-center justify-center rounded-lg border border-dashed p-4 text-slate-500 file:hidden focus:ring-2"
+      class="flex min-h-[30vh] w-full items-center justify-center rounded-lg border border-dashed p-4 text-gray-500 file:hidden focus:ring-2"
       @change="onFileChange" />
   </DModal>
 </template>

@@ -7,9 +7,9 @@
     </div>
     <div :class="{ hidden: !open }" class="relative space-y-2 p-2 pt-4">
       <header class="flex w-full items-center justify-between px-2">
-        <div class="text-xs uppercase text-slate-500">Ausgewählte Kompetenzen</div>
+        <div class="text-xs uppercase text-gray-500">Ausgewählte Kompetenzen</div>
         <div
-          class="cursor-pointer rounded-lg text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="cursor-pointer rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
           tabindex="0" @click="open = !open" @keyup.enter="open = !open">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -26,7 +26,7 @@
           @remove="store.toggleCompetence(competence)" />
       </div>
       <footer class="flex justify-between px-2">
-        <span class="cursor-pointer text-slate-500 hover:text-slate-700" @click="removeAllCompetences">Alle
+        <span class="cursor-pointer text-gray-500 hover:text-gray-700" @click="removeAllCompetences">Alle
           entfernen</span>
         <DButton look="primary" size="28" @click="documentCompetences">{{ documentButtonText }}</DButton>
       </footer>

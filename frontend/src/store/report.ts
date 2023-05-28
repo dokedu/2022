@@ -36,7 +36,6 @@ export const useReportStore = defineStore('report', {
         .single()
 
       if (error) {
-        console.error(error)
         return
       }
 
@@ -69,7 +68,6 @@ export const useReportStore = defineStore('report', {
       const res = await supabase.storage.from(this.file_bucket_id).createSignedUrl(this.file_name, 60)
 
       if (res.error) {
-        console.error(res.error)
         throw res.error
       }
 

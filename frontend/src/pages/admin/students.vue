@@ -12,7 +12,7 @@
 
       <DTable :items="users?.data || []" :columns="tableColumns" @open="onOpen">
         <template #role>
-          <span class="inline-flex rounded-full bg-slate-100 px-2 text-xs font-medium leading-5 text-slate-800">
+          <span class="inline-flex rounded-full bg-gray-100 px-2 text-xs font-medium leading-5 text-gray-800">
             Schüler
           </span>
         </template>
@@ -24,14 +24,14 @@
         </template>
       </DTable>
 
-      <DPagination v-if="users?.count > 10" :limit="10" :offset="offset" :count="users?.count"
-        @change="offset = $event"></DPagination>
+      <DPagination v-if="users?.count > 10" :limit="10" :offset="offset" :count="users?.count" @change="offset = $event">
+      </DPagination>
     </div>
   </div>
 
   <DModal :open="create !== null" modal-class="sm:max-w-[500px]" @close="create = null">
     <div class="flex flex-col">
-      <h4 class="text-2xl font-semibold text-slate-800">Schüler hinzufügen</h4>
+      <h4 class="text-2xl font-semibold text-gray-800">Schüler hinzufügen</h4>
       <UsersForm v-model="userData" role="student"></UsersForm>
       <div class="mt-5 flex flex-col gap-5">
         <DButton look="primary" class="mt-5" @click="onCreate">Schüler erstellen</DButton>
@@ -41,7 +41,7 @@
 
   <DModal :open="open !== null" modal-class="sm:max-w-[500px]" @close="open = null">
     <div class="flex flex-col">
-      <h4 class="text-2xl font-semibold text-slate-800">Schüler bearbeiten</h4>
+      <h4 class="text-2xl font-semibold text-gray-800">Schüler bearbeiten</h4>
       <UsersForm v-model="userData" role="student"></UsersForm>
       <div class="mt-2 grid grid-cols-2 gap-5">
         <DButton v-if="!userData?.deleted_at" look="danger-light" class="mt-5" @click="onDelete">Archivieren</DButton>

@@ -1,21 +1,13 @@
 <template>
   <div class="relative flex min-w-[200px] flex-col">
-    <label v-if="label" class="mb-1 text-xs text-slate-500">{{ label }}</label>
-    <label
-      ref="dropdownInput"
-      class="relative cursor-pointer items-center rounded-md bg-slate-100 py-2.5 pl-3 pr-10 text-left align-middle text-slate-700 sm:text-sm"
-      :class="{ 'border-blue-500 outline-none ring-1 ring-blue-500 ': state.isOpen }"
-    >
-      <input
-        ref="searchRef"
-        v-model="search"
-        :type="searchable ? 'text' : 'button'"
+    <label v-if="label" class="mb-1 text-xs text-gray-500">{{ label }}</label>
+    <label ref="dropdownInput"
+      class="relative cursor-pointer items-center rounded-md bg-gray-100 py-2.5 pl-3 pr-10 text-left align-middle text-gray-700 sm:text-sm"
+      :class="{ 'border-blue-500 outline-none ring-1 ring-blue-500 ': state.isOpen }">
+      <input ref="searchRef" v-model="search" :type="searchable ? 'text' : 'button'"
         class="absolute top-1.5 left-3 right-3 z-0 w-full border-0 bg-transparent py-0 px-0 pr-10 focus:outline-none focus:ring-0"
-        @focusin="state.isOpen = true"
-        @keydown.down.prevent="selectNext"
-        @keydown.up.prevent="selectPrevious"
-        @keydown.enter.prevent="onEnter"
-      />
+        @focusin="state.isOpen = true" @keydown.down.prevent="selectNext" @keydown.up.prevent="selectPrevious"
+        @keydown.enter.prevent="onEnter" />
       <div class="pointer-events-none z-10 flex h-full items-center">
         <template v-if="search.length <= 0">
           {{ dropdownLabel }}
@@ -23,38 +15,26 @@
         <template v-else>&nbsp;</template>
       </div>
       <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-        <SelectorIcon class="h-5 w-5 text-slate-400" aria-hidden="true" />
+        <SelectorIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
       </span>
     </label>
 
     <small v-if="errorMessage" class="text-red-400">{{ errorMessage }}</small>
 
     <div ref="dropdownMenu" class="relative">
-      <transition
-        leave-active-class="transition ease-in duration-100"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-      >
-        <ul
-          v-if="state.isOpen"
+      <transition leave-active-class="transition ease-in duration-100" leave-from-class="opacity-100"
+        leave-to-class="opacity-0">
+        <ul v-if="state.isOpen"
           class="absolute top-0 z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-          :class="{ '-top-12 -translate-y-full': openOnTop }"
-        >
+          :class="{ '-top-12 -translate-y-full': openOnTop }">
           <li v-if="!filteredOptions.length" class="py-2 pl-8">Keine Treffer gefunden</li>
-          <li
-            v-for="(option, index) in filteredOptions"
-            :key="option.value"
-            class="relative cursor-pointer select-none py-2 pl-8 pr-4 text-slate-900 hover:bg-blue-600 hover:text-white"
-            :class="{ 'bg-blue-600 text-white': index === focusedOptionIndex }"
-            @click="selectedOptions = option"
-          >
+          <li v-for="(option, index) in filteredOptions" :key="option.value"
+            class="relative cursor-pointer select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-blue-600 hover:text-white"
+            :class="{ 'bg-blue-600 text-white': index === focusedOptionIndex }" @click="selectedOptions = option">
             <span :class="[selectedOptionIndexes.includes(index) ? 'font-semibold' : 'font-normal', 'block truncate']">
               {{ option.label }}
             </span>
-            <span
-              v-if="selectedOptionIndexes.includes(index)"
-              class="absolute inset-y-0 right-0 flex items-center pr-4"
-            >
+            <span v-if="selectedOptionIndexes.includes(index)" class="absolute inset-y-0 right-0 flex items-center pr-4">
               <CheckIcon class="h-5 w-5" aria-hidden="true"></CheckIcon>
             </span>
           </li>

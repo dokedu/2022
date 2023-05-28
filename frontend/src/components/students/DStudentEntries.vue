@@ -11,10 +11,10 @@
         class="flex w-full flex-col justify-between rounded-lg border bg-white py-4 px-5 hover:shadow"
         :to="{ name: 'entry', params: { id: entry.id } }">
         <div>
-          <div class="mb-1 text-sm font-medium text-slate-600">{{ parseDate(entry.created_at) }}</div>
+          <div class="mb-1 text-sm font-medium text-gray-600">{{ parseDate(entry.created_at) }}</div>
           <div class="max-h-[50px] overflow-hidden text-ellipsis" v-html="renderEntryBody(entry.body)"></div>
         </div>
-        <div class="mt-2 text-sm font-medium text-slate-600">
+        <div class="mt-2 text-sm font-medium text-gray-600">
           {{ entry.account.first_name }} {{ entry.account.last_name }}
         </div>
       </router-link>
@@ -23,16 +23,16 @@
   <div v-if="entries?.length === 0" class="mt-10">
     <div class="mb-2 text-xl">Einträge</div>
     <div class="flex min-h-[136px] w-full flex-col items-center justify-center rounded-lg border">
-      <div class="mb-4 text-slate-500">Keine Einträge gefunden.</div>
+      <div class="mb-4 text-gray-500">Keine Einträge gefunden.</div>
       <DButton look="primary" size="28" :to="{ name: 'entry_new' }">Eintrag erstellen</DButton>
     </div>
   </div>
   <div v-if="!entries" class="mt-10">
     <div class="mb-2 text-xl">Einträge</div>
     <div class="flex min-h-[136px] w-full space-x-2 rounded-lg">
-      <div class="h-[136px] w-full animate-pulse rounded-lg border bg-slate-50"></div>
-      <div class="h-[136px] w-full animate-pulse rounded-lg border bg-slate-50"></div>
-      <div class="h-[136px] w-full animate-pulse rounded-lg border bg-slate-50"></div>
+      <div class="h-[136px] w-full animate-pulse rounded-lg border bg-gray-50"></div>
+      <div class="h-[136px] w-full animate-pulse rounded-lg border bg-gray-50"></div>
+      <div class="h-[136px] w-full animate-pulse rounded-lg border bg-gray-50"></div>
     </div>
   </div>
 </template>

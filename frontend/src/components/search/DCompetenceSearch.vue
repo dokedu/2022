@@ -3,12 +3,12 @@
     <div class="grid h-full grid-cols-5 gap-4 md:grid-cols-9">
       <div class="col-span-5 flex flex-col justify-between">
         <div>
-          <input v-model="search" type="text" class="w-full rounded-lg border-slate-300"
+          <input v-model="search" type="text" class="w-full rounded-lg border-gray-300"
             placeholder="Suche nach Fächern, Gruppen oder Kompetenzen" />
           <div v-if="results?.data" class="mt-2 flex max-h-[70vh] flex-col divide-y overflow-auto px-1">
             <div v-for="hit in results?.data?.hits" :key="hit.id">
               <div
-                class="my-1 cursor-pointer rounded-lg p-1 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="my-1 cursor-pointer rounded-lg p-1 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 tabindex="0" @keyup.enter="addCompetence(hit)" @click="addCompetence(hit)">
                 <DCompetence :competence="hit" />
               </div>
@@ -16,10 +16,10 @@
           </div>
         </div>
         <div>
-          <div class="flex justify-between p-1 text-slate-500">
+          <div class="flex justify-between p-1 text-gray-500">
             <div class="p-1 text-sm md:text-base">{{ results?.data.nbHits }} Ergebnisse</div>
             <div v-if="results?.data.nbHits - 5 > 0"
-              class="cursor-pointer rounded-lg p-1 text-sm hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 md:text-base"
+              class="cursor-pointer rounded-lg p-1 text-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 md:text-base"
               @click="limit += 5">
               weitere {{ results?.data.nbHits - 5 > 0 ? 5 : results?.data.nbHits - 5 }} anzeigen
             </div>

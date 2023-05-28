@@ -15,16 +15,16 @@
         {{ parseDateCalendar(store.to) }}
       </div>
     </div>
-    <div class="mb-8 text-sm text-slate-500" data-cy="teacher">
+    <div class="mb-8 text-sm text-gray-500" data-cy="teacher">
       <span>Erstellt von </span>
-      <span class="text-slate-700">{{ store.author_account.first_name }} {{ store.author_account.last_name }}</span>
+      <span class="text-gray-700">{{ store.author_account.first_name }} {{ store.author_account.last_name }}</span>
     </div>
 
-    <div v-if="store.status === 'error' && store.meta?.error" class="mb-8 rounded-md bg-red-50 p-4">
+    <div v-if="store.status === 'error' && store.meta?.error" class="mb-8 rounded-md bg-red-50 p-2">
       <div class="flex">
-        <div class="ml-3">
-          <h3 class="text-sm font-medium text-red-800">Fehler bei der Erstellung des Berichts</h3>
-          <div class="mt-2 text-sm text-red-700">
+        <div>
+          <h3 class="text-sm font-medium text-red-800 p-1">Fehler bei der Erstellung des Berichts</h3>
+          <div class="mt-2 text-sm text-red-700 font-mono p-3 bg-red-100 rounded-md">
             {{ store.meta.error }}
           </div>
         </div>
@@ -60,9 +60,12 @@ const buttonLabel = computed(() => buttonLabels[store.type || 'report'])
 const viewFile = async () => {
   if (store.status === 'done') {
     try {
-      window.open(await store.createSignedUrl(), '_blank')
+      const url = await store.createSignedUrl()
+      if (url) {
+        window.open(url, '_blank')
+      }
     } catch (e) {
-      console.error(e)
+      // console.error(e)
     }
   } else if (store.status === 'pending') {
     alert(

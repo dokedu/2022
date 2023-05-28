@@ -1,17 +1,13 @@
 <template>
   <div>
     <div v-show="entryStore.competences?.length > 0" class="mt-8 mb-2 flex items-center justify-between">
-      <div class="mb-1 select-none text-xl font-semibold text-slate-700">Kompetenzen</div>
+      <div class="mb-1 select-none text-xl font-semibold text-gray-700">Kompetenzen</div>
     </div>
     <div>
       <div class="flex flex-col space-y-2">
         <div v-for="eac in entryStore.competences" :key="eac.id">
-          <DEntryAccountCompetence
-            :eac="eac"
-            editable
-            @remove="removeCompetence"
-            @level="entryStore.setLevel"
-          ></DEntryAccountCompetence>
+          <DEntryAccountCompetence :eac="eac" editable @remove="removeCompetence" @level="entryStore.setLevel">
+          </DEntryAccountCompetence>
         </div>
       </div>
     </div>

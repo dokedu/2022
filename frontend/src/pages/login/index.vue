@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen flex-col justify-center bg-slate-50 py-12 sm:px-6 lg:px-8">
+  <div class="flex min-h-screen flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <div class="mx-auto mb-2">
         <img src="/assets/dokedu-logo.svg" alt="Dokedu logo" class="mx-auto object-cover" height="75" width="112" />
@@ -10,20 +10,20 @@
       <div class="rounded-lg bg-white py-8 px-4 shadow sm:px-10">
         <form class="space-y-6" @submit.prevent="login">
           <div>
-            <label for="email" class="block text-sm font-medium text-slate-700">E-Mail Adresse</label>
+            <label for="email" class="block text-sm font-medium text-gray-700">E-Mail Adresse</label>
             <div class="mt-1">
               <input id="email" v-model="email" name="email" type="email" autocomplete="email" required
                 placeholder="Deine E-Mail Adresse"
-                class="block w-full appearance-none rounded-lg border border-slate-200 px-3 py-2 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm" />
+                class="block w-full appearance-none rounded-lg border border-gray-200 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm" />
             </div>
           </div>
 
           <div>
-            <label for="password" class="block text-sm font-medium text-slate-700">Passwort</label>
+            <label for="password" class="block text-sm font-medium text-gray-700">Passwort</label>
             <div class="mt-1">
               <input id="password" v-model="password" name="password" type="password" autocomplete="current-password"
                 required placeholder="Dein Passwort"
-                class="block w-full appearance-none rounded-lg border border-slate-200 px-3 py-2 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm" />
+                class="block w-full appearance-none rounded-lg border border-gray-200 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm" />
             </div>
           </div>
 
@@ -68,7 +68,6 @@ export default {
       })
 
       if (res.error) {
-        console.log(res)
         if (res.error.message === 'Invalid login credentials') {
           errorMsg.value = 'E-Mail oder Passwort falsch'
         } else {

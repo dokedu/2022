@@ -169,7 +169,6 @@ export const useEntryStore = defineStore('entry', {
       }
     },
     addAccount(account: Account) {
-      console.log(account)
       // because we are using deleted_at, we need to check if the account is already in the list
       const existing: EntryAccount | undefined = this.entry_accounts.find((el) => el.account_id === account.id)
       if (existing !== undefined) {

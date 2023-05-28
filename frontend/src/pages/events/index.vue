@@ -1,7 +1,6 @@
 <template>
   <div class="mt-4 flex space-x-2">
-    <input v-model="filter.search" type="text" class="w-full rounded-lg border-slate-300"
-      placeholder="Projekt suchen" />
+    <input v-model="filter.search" type="text" class="w-full rounded-lg border-gray-300" placeholder="Projekt suchen" />
     <DButton look="secondary" :to="{ name: 'events_export' }">Exportieren</DButton>
     <DButton look="primary" :to="{ name: 'event_new' }">Neues Projekt</DButton>
   </div>
@@ -9,15 +8,15 @@
   <pre>{{ isValidating }}</pre>
 
   <div class="mt-2 flex gap-2">
-    <select v-model="filter.limit" name="limit" id="limit" class="rounded-lg border border-slate-300 px-3 py-1 pr-8">
+    <select v-model="filter.limit" name="limit" id="limit" class="rounded-lg border border-gray-300 px-3 py-1 pr-8">
       <option v-for="i in [5, 20, 50, 100, 200]" :value="i">{{ i }}</option>
     </select>
-    <select class="rounded-lg border border-slate-300 px-3 py-1 pr-8">
+    <select class="rounded-lg border border-gray-300 px-3 py-1 pr-8">
       <option value="week" selected>Woche</option>
       <option value="month" disabled>Monat</option>
     </select>
-    <input v-model="filter.starts_at" type="date" class="rounded-lg border border-slate-300 px-2 py-1" />
-    <input v-model="filter.ends_at" type="date" class="rounded-lg border border-slate-300 px-2 py-1" />
+    <input v-model="filter.starts_at" type="date" class="rounded-lg border border-gray-300 px-2 py-1" />
+    <input v-model="filter.ends_at" type="date" class="rounded-lg border border-gray-300 px-2 py-1" />
     <label for="deleted"></label>
 
     <SwitchGroup as="div" class="flex items-center">
@@ -41,20 +40,20 @@
 
     <div v-for="week in year.weeks" class="mb-6">
       <div class="my-2 flex items-center space-x-2">
-        <div class="text-sm text-slate-600">
+        <div class="text-sm text-gray-600">
           {{ parseDateCalendarShort(getFirstDate(year.year, week.week)) }} -
           {{ parseDateCalendarShort(getLastDate(year.year, week.week)) }}
         </div>
 
-        <div v-if="parseInt(week.week) === getWeek(new Date())" class="flex space-x-2 text-sm text-slate-400">
+        <div v-if="parseInt(week.week) === getWeek(new Date())" class="flex space-x-2 text-sm text-gray-400">
           (aktuelle Woche)
         </div>
       </div>
 
       <div class="flex flex-col">
         <div v-for="(event, index) in week.events" class="border-b" :class="{ 'border-t': index === 0 }">
-          <router-link class="my-1 grid grid-cols-5 items-center gap-1 rounded-md px-2 py-1 hover:bg-slate-50"
-            :class="[isPast(event) ? 'text-slate-500' : '']" :to="{ name: 'event', params: { id: event.id } }">
+          <router-link class="my-1 grid grid-cols-5 items-center gap-1 rounded-md px-2 py-1 hover:bg-gray-50"
+            :class="[isPast(event) ? 'text-gray-500' : '']" :to="{ name: 'event', params: { id: event.id } }">
             <div class="col-span-3 w-full" :class="{ 'line-through': event.deleted_at !== null }">
               {{ event.title }}
             </div>

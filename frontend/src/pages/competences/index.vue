@@ -1,11 +1,8 @@
 <template>
-  <div class="mt-4 flex flex-col divide-y divide-slate-200">
+  <div class="mt-4 flex flex-col divide-y divide-gray-200">
     <div v-for="subject in subjects" :key="subject.id" class="">
-      <router-link
-        :to="{ name: 'competence', params: { id: subject.id } }"
-        class="my-1 block rounded-lg p-2 hover:bg-slate-100"
-        >{{ subject.name }}</router-link
-      >
+      <router-link :to="{ name: 'competence', params: { id: subject.id } }"
+        class="my-1 block rounded-lg p-2 hover:bg-gray-100">{{ subject.name }}</router-link>
     </div>
   </div>
 

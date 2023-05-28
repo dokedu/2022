@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <h4 class="text-2xl font-semibold text-slate-800">Nutzer hinzufügen</h4>
+    <h4 class="text-2xl font-semibold text-gray-800">Nutzer hinzufügen</h4>
     <UsersForm v-model="userData"></UsersForm>
     <div class="mt-5 flex flex-col gap-5">
       <DButton :disabled="isCreating" look="primary" class="mt-5" @click="onCreate">Nutzer erstellen</DButton>

@@ -2,13 +2,13 @@
   <div>
     <div v-show="accounts?.length > 0" class="mt-8">
       <div class="flex items-center justify-between">
-        <div class="mb-1 select-none text-xl font-semibold text-slate-700">Schüler</div>
+        <div class="mb-1 select-none text-xl font-semibold text-gray-700">Schüler</div>
       </div>
       <div>
         <div v-if="accounts" class="flex flex-col divide-y">
           <div v-for="student in accounts" :key="student.id" class="my-1 flex items-center justify-between pt-2">
             <div class="">{{ student.account.first_name }} {{ student.account.last_name }}</div>
-            <div class="cursor-pointer rounded-lg hover:bg-slate-100" @click="removeAccount(student)">
+            <div class="cursor-pointer rounded-lg hover:bg-gray-100" @click="removeAccount(student)">
               <IconX />
             </div>
           </div>
@@ -20,15 +20,14 @@
       <div class="flex min-h-[450px] flex-col justify-between">
         <div>
           <div class="mb-1">
-            <input v-model="search" type="text" class="w-full rounded-lg border-slate-300"
-              placeholder="Schüler suchen" />
+            <input v-model="search" type="text" class="w-full rounded-lg border-gray-300" placeholder="Schüler suchen" />
             <div class="mt-1 flex flex-wrap">
               <div v-for="account in accounts" :key="account.id" class="m-1 ml-0 flex rounded-lg border p-1 text-sm">
                 {{ account.account.first_name }} {{ account.account.last_name }}
-                <span class="ml-1 cursor-pointer rounded-lg hover:bg-slate-100" @click="removeAccount(account)">
+                <span class="ml-1 cursor-pointer rounded-lg hover:bg-gray-100" @click="removeAccount(account)">
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="2 0 20 20" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="feather feather-x stroke-slate-500">
+                    class="feather feather-x stroke-gray-500">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                   </svg>
@@ -38,7 +37,7 @@
           </div>
           <div class="mb-2 flex flex-col space-y-1">
             <div v-for="student in filteredStudents" :key="student.id"
-              class="cursor-pointer rounded-lg p-1 hover:bg-slate-100" @click="onAddAccount(student)">
+              class="cursor-pointer rounded-lg p-1 hover:bg-gray-100" @click="onAddAccount(student)">
               {{ student.first_name }} {{ student.last_name }}
             </div>
             <div v-show="students?.count === 0" class="p-1">Keine Ergebnisse</div>

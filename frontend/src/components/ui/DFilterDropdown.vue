@@ -1,9 +1,9 @@
 <template>
   <div class="relative flex min-w-0 flex-col">
-    <label class="mb-1 block text-xs font-medium text-slate-500 transition ease-in-out"
+    <label class="mb-1 block text-xs font-medium text-gray-500 transition ease-in-out"
       :class="(modelValue && modelValue.length) || search ? 'opacity-100' : 'opacity-0'">{{ label }}</label>
     <label ref="dropdownInput"
-      class="relative cursor-pointer rounded-md border border-slate-300 bg-white py-1.5 px-3 text-left align-middle shadow-sm sm:text-sm"
+      class="relative cursor-pointer rounded-md border border-gray-300 bg-white py-1.5 px-3 text-left align-middle sm:text-sm"
       :class="{
         'border-blue-500 outline-none ring-1 ring-blue-500 ': state.isOpen,
         'border-blue-600 bg-blue-600 pr-7 text-white': modelValue && modelValue.length,
@@ -41,7 +41,7 @@
           </li>
           <li v-if="!filteredOptions.length && search" class="py-2 pl-4">Keine Treffer gefunden</li>
           <li v-for="(option, index) in filteredOptions" :key="option.value"
-            class="relative cursor-pointer select-none py-2 pl-4 pr-4 text-slate-900 hover:bg-blue-600 hover:text-white"
+            class="relative cursor-pointer select-none py-2 pl-4 pr-4 text-gray-900 hover:bg-blue-600 hover:text-white"
             :class="{ 'bg-blue-600 text-white': index === focusedOptionIndex }" @click="selectedOptions = option">
             <span :class="[selectedOptionIndexes.includes(index) ? 'font-semibold' : 'font-normal', 'block truncate']">
               {{ option.label }}

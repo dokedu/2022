@@ -1,31 +1,30 @@
 <template>
   <div class="mx-auto mt-12 grid max-w-[500px] gap-4">
     <div>
-      <label for="student" class="mb-1 block text-sm uppercase text-slate-500">Schüler</label>
+      <label for="student" class="mb-1 block text-sm uppercase text-gray-500">Schüler</label>
       <DDropdown id="student" v-model="store.student_account_id" name="student_account_id" :options="studentsOptions"
         data-cy="student"></DDropdown>
     </div>
 
     <div>
-      <label for="from" class="mb-1 block text-sm uppercase text-slate-500">Von</label>
+      <label for="from" class="mb-1 block text-sm uppercase text-gray-500">Von</label>
       <DInput id="from" v-model="store.from" name="from" type="date" data-cy="from"
-        class="w-full rounded-lg border-slate-300" />
+        class="w-full rounded-lg border-gray-300" />
     </div>
 
     <div>
-      <label for="to" class="mb-1 block text-sm uppercase text-slate-500">Bis</label>
-      <DInput id="to" v-model="store.to" type="date" name="to" data-cy="to"
-        class="w-full rounded-lg border-slate-300" />
+      <label for="to" class="mb-1 block text-sm uppercase text-gray-500">Bis</label>
+      <DInput id="to" v-model="store.to" type="date" name="to" data-cy="to" class="w-full rounded-lg border-gray-300" />
     </div>
 
     <div>
-      <label for="type" class="mb-1 block text-sm uppercase text-slate-500">Art</label>
+      <label for="type" class="mb-1 block text-sm uppercase text-gray-500">Art</label>
       <DDropdown v-model="store.type" :options="reportTypes" name="type" data-cy="type"> </DDropdown>
     </div>
 
     <div v-if="store.type === 'report'">
-      <label for="tags" class="mb-1 block text-sm uppercase text-slate-500">Einträge mit mindestens diesen Tags</label>
-      <DTagList v-model="store.filter_tags" :allow-create="false" label="Tag suchen" placeholder="Tag hinzufügen">
+      <label for="tags" class="mb-1 block text-sm uppercase text-gray-500">Einträge mit mindestens diesem Label</label>
+      <DTagList v-model="store.filter_tags" :allow-create="false" label="Label suchen" placeholder="Tag hinzufügen">
       </DTagList>
     </div>
 

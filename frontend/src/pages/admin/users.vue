@@ -10,7 +10,7 @@
 
         <DTable :items="users?.data || []" :columns="tableColumns" @open="onOpen">
           <template #role="{ column }">
-            <span class="inline-flex rounded-full bg-slate-100 px-2 text-xs font-medium leading-5 text-slate-800">
+            <span class="inline-flex rounded-full bg-gray-100 px-2 text-xs font-medium leading-5 text-gray-800">
               {{ translateRole(column) }}
             </span>
           </template>
@@ -28,7 +28,7 @@
 
   <DModal :open="open !== null" modal-class="sm:max-w-[500px] overflow-visible" @close="onClose">
     <div class="flex flex-col">
-      <h4 class="text-2xl font-semibold text-slate-800">Nutzer bearbeiten</h4>
+      <h4 class="text-2xl font-semibold text-gray-800">Nutzer bearbeiten</h4>
       <UsersForm v-model="userData"></UsersForm>
       <div class="mt-2 grid grid-cols-2 gap-5">
         <DButton look="danger-light" class="mt-5" @click="onDelete">Archivieren</DButton>

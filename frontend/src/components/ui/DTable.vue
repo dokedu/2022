@@ -2,25 +2,19 @@
   <div class="flex flex-col">
     <div class="-my-2 overflow-x-auto lg:overflow-x-visible">
       <div class="inline-block py-2 align-middle sm:min-w-full lg:w-full lg:px-0">
-        <div class="overflow-hidden rounded-md border-slate-200">
-          <table class="min-w-full divide-y divide-slate-200">
-            <thead class="bg-slate-100">
+        <div class="overflow-hidden rounded-md border-gray-200">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-100">
               <tr>
                 <th v-if="selectable">
-                  <FormCheckbox
-                    :model-value="items.length === selectedItems.length"
-                    class="items-center self-stretch px-6"
-                    @change="selectAll"
-                  ></FormCheckbox>
+                  <FormCheckbox :model-value="items.length === selectedItems.length"
+                    class="items-center self-stretch px-6" @change="selectAll"></FormCheckbox>
                 </th>
-                <th
-                  v-for="column in filteredColumns"
-                  :key="`${column.key}-${currentSorting?.key === column.key ? currentSorting?.order : ''}`"
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500"
-                  :class="{ 'cursor-pointer hover:text-slate-600 focus:text-slate-700': column.sortable }"
-                  @click="() => sortBy(column)"
-                >
+                <th v-for="column in filteredColumns"
+                  :key="`${column.key}-${currentSorting?.key === column.key ? currentSorting?.order : ''}`" scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                  :class="{ 'cursor-pointer hover:text-gray-600 focus:text-gray-700': column.sortable }"
+                  @click="() => sortBy(column)">
                   <div class="flex select-none items-center">
                     {{ column.name }}
                     <div v-if="column.sortable && currentSorting?.key === column.key" class="ml-2 flex">
@@ -31,25 +25,14 @@
                 </th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-200 bg-white">
-              <tr
-                v-for="item in items"
-                :key="item[itemKey]"
-                class="cursor-pointer transition-colors hover:bg-slate-100"
-              >
+            <tbody class="divide-y divide-gray-200 bg-white">
+              <tr v-for="item in items" :key="item[itemKey]" class="cursor-pointer transition-colors hover:bg-gray-100">
                 <td v-if="selectable">
-                  <FormCheckbox
-                    :model-value="selectedItems.includes(item[itemKey])"
-                    class="items-center self-stretch px-6"
-                    @change="() => select(item)"
-                  ></FormCheckbox>
+                  <FormCheckbox :model-value="selectedItems.includes(item[itemKey])"
+                    class="items-center self-stretch px-6" @change="() => select(item)"></FormCheckbox>
                 </td>
-                <td
-                  v-for="column in columns"
-                  :key="`${item[itemKey]}-column-${column.key}`"
-                  class="whitespace-nowrap px-6 py-4"
-                  @click="$emit('open', item)"
-                >
+                <td v-for="column in columns" :key="`${item[itemKey]}-column-${column.key}`"
+                  class="whitespace-nowrap px-6 py-4" @click="$emit('open', item)">
                   <slot v-if="!!$slots[column.key]" :name="column.key" :item="item" :column="item[column.key]"></slot>
                   <template v-else>
                     {{ item[column.key] || 0 }}

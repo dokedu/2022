@@ -2,7 +2,6 @@ export const decodeFileName = (string: string) => {
   return string.split('/')[string.split('/').length - 1].slice(22)
   // try {
   // const name = string.split('/')[string.split('/').length - 1].slice(22)
-  // console.log(window.atob(decodeURI(name)))
   // return window.atob(decodeURI(name))
   // } catch (error) {
   //   return '#' + string.split('/')[string.split('/').length - 1].slice(22)

@@ -8,12 +8,10 @@
 
     <div v-if="topics?.length > 0">
       <div class="mb-1">Themen</div>
-      <div class="flex flex-col divide-y divide-slate-200">
+      <div class="flex flex-col divide-y divide-gray-200">
         <div v-for="competence in topics" :key="competence.id">
-          <router-link
-            :to="{ name: 'competence', params: { id: competence.id } }"
-            class="my-1 block rounded-lg hover:bg-slate-100"
-          >
+          <router-link :to="{ name: 'competence', params: { id: competence.id } }"
+            class="my-1 block rounded-lg hover:bg-gray-100">
             <DCompetence :competence="competence" />
           </router-link>
         </div>
@@ -22,15 +20,11 @@
 
     <div v-if="competences?.length > 0" class="mt-4">
       <div class="mb-1">Kompetenzen</div>
-      <div class="flex flex-col divide-y divide-slate-200">
+      <div class="flex flex-col divide-y divide-gray-200">
         <div v-for="competence in competences" :key="competence.id">
-          <div
-            class="cursor-pointer rounded-md hover:bg-slate-100"
-            :class="{
-              'bg-blue-100 hover:bg-blue-100': competenceStore.competences.find((el) => el.id === competence.id),
-            }"
-            @click="competenceStore.toggleCompetence(competence)"
-          >
+          <div class="cursor-pointer rounded-md hover:bg-gray-100" :class="{
+            'bg-blue-100 hover:bg-blue-100': competenceStore.competences.find((el) => el.id === competence.id),
+          }" @click="competenceStore.toggleCompetence(competence)">
             <DCompetence :competence="competence" />
           </div>
         </div>

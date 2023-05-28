@@ -9,17 +9,10 @@
         <DFilterTags v-model="tagsFilter" label="Tags"></DFilterTags>
       </div>
       <div class="flex space-x-2">
-        <!--
         <div class="flex flex-col">
-          <label for="search" class="mb-1 text-xs font-medium text-slate-500">Suche</label>
-          <input id="search" v-model="filters.search" type="text" placeholder="Suche"
-            class="rounded-lg border-slate-300 py-1.5 px-3 text-sm shadow-sm" />
-        </div>
-        -->
-        <div class="flex flex-col">
-          <label for="limit" class="mb-1 text-xs font-medium text-slate-500">Limit</label>
+          <label for="limit" class="mb-1 text-xs font-medium text-gray-500">Limit</label>
           <select id="limit" v-model="limit"
-            class="min-w-[60px] rounded-lg border border-slate-300 py-1.5 px-3 shadow-sm sm:text-sm">
+            class="min-w-[60px] rounded-lg border border-gray-300 py-1.5 px-3 sm:text-sm">
             <option v-for="option in limitOptions" :key="option" :value="option">{{ option }}</option>
           </select>
         </div>
@@ -37,7 +30,7 @@
           </template>
         </DTable>
       </div>
-      <div v-else class="pt-12 text-center text-slate-500">Keine Einträge gefunden.</div>
+      <div v-else class="pt-12 text-center text-gray-500">Keine Einträge gefunden.</div>
     </div>
     <div class="mt-4" v-if="entries !== undefined">
       <DPagination v-show="entries?.count > 0 && entries?.count > limitInt" :limit="limitInt" :count="entries?.count"
@@ -240,13 +233,8 @@ watch(
 
 
 const setOffset = async (val: number) => {
-  console.log(val, (val).toString())
-
-  console.log('a')
   if (val < 0) return
-  console.log('b')
   if (val > (entries?.value?.count || -1)) return
-  console.log('c')
 
   offset.value = (val).toString()
 

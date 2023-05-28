@@ -12,7 +12,6 @@ import { useCompetenceStore } from './store/competence'
 const route = useRoute()
 
 supabase.auth.onAuthStateChange(async (event, session) => {
-  console.log(event)
   switch (event) {
     //case 'SIGNED_IN':
     //  //if (!session?.access_token) break
@@ -44,5 +43,5 @@ const CurrentLayout = computed(() => {
 </script>
 
 <template>
-  <component :is="CurrentLayout" class="text-slate-900"></component>
+  <component :is="CurrentLayout" class="text-gray-900"></component>
 </template>

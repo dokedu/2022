@@ -1,66 +1,53 @@
 <template>
-  <div class="flex items-center justify-between border-t border-slate-200 bg-white py-3">
+  <div class="flex items-center justify-between border-t border-gray-200 bg-white py-3">
     <div class="flex flex-1 justify-between sm:hidden">
       <button
-        class="relative inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
-        @click="prev"
-      >
+        class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        @click="prev">
         Zurück
       </button>
       <button
-        class="relative ml-3 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
-        @click="next"
-      >
+        class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        @click="next">
         Weiter
       </button>
     </div>
     <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
       <div v-if="showResults">
-        <p v-if="count > 0" class="text-sm text-slate-700">
+        <p v-if="count > 0" class="text-sm text-gray-700">
           <span class="font-medium">{{ count }}</span> Ergebnisse
         </p>
       </div>
-      <div v-if="showInput" class="mr-4 flex items-center text-sm text-slate-700">
+      <div v-if="showInput" class="mr-4 flex items-center text-sm text-gray-700">
         Seite:
         <DInput v-model="currentPage" type="number" min="1" :max="totalPages" class="ml-2 w-24" />
       </div>
       <div class="flex items-center">
         <nav class="relative z-0 inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
           <button
-            class="relative inline-flex items-center rounded-l-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50"
-            :disabled="currentPage === 1"
-            @click="prev"
-          >
+            class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
+            :disabled="currentPage === 1" @click="prev">
             <span class="sr-only">Previous</span>
             <ChevronLeftIcon class="h-5 w-5" aria-hidden="true" />
           </button>
           <template v-if="count > 0">
             <template v-for="_page in filteredPages" :key="_page">
-              <button
-                v-if="Number.isInteger(_page)"
-                aria-current="page"
-                :class="{
-                  'z-10 border-blue-500  bg-blue-50 text-blue-600': currentPage === _page + 1,
-                  'border-slate-300 text-slate-500': currentPage !== _page + 1,
-                }"
-                class="relative inline-flex items-center border px-4 py-2 text-sm font-medium"
-                @click="currentPage = _page + 1"
-              >
+              <button v-if="Number.isInteger(_page)" aria-current="page" :class="{
+                'z-10 border-blue-500  bg-blue-50 text-blue-600': currentPage === _page + 1,
+                'border-gray-300 text-gray-500': currentPage !== _page + 1,
+              }" class="relative inline-flex items-center border px-4 py-2 text-sm font-medium"
+                @click="currentPage = _page + 1">
                 {{ _page + 1 }}
               </button>
-              <div
-                v-else
-                class="relative inline-flex items-center border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700"
-              >
+              <div v-else
+                class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700">
                 ...
               </div>
             </template>
           </template>
           <button
-            class="relative inline-flex items-center rounded-r-md border border-slate-300 bg-white px-2 py-2 text-sm font-medium text-slate-500 hover:bg-slate-50"
-            :disabled="currentPage === totalPages"
-            @click="next"
-          >
+            class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
+            :disabled="currentPage === totalPages" @click="next">
             <span class="sr-only">Next</span>
             <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
           </button>

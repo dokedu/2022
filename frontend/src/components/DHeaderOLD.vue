@@ -5,26 +5,20 @@
         <DLogo />
       </router-link>
       <div class="hidden sm:flex">
-        <DButton
-          v-for="route in routes"
-          :key="route.href"
-          :to="{ name: route.href }"
-          look="link"
-          class="mr-2 space-x-2"
-        >
+        <DButton v-for="route in routes" :key="route.href" :to="{ name: route.href }" look="link" class="mr-2 space-x-2">
           <DIcon :name="route.icon" size="20" />
           <div>{{ route.name }}</div>
         </DButton>
       </div>
     </div>
     <div class="flex space-x-4">
-      <select v-if="store?.organisations?.length > 1" class="rounded-lg border-slate-300">
+      <select v-if="store?.organisations?.length > 1" class="rounded-lg border-gray-300">
         <option v-for="organisation in store.organisations" :key="organisation.id" :value="organisation.id">
           {{ organisation.name }}
         </option>
       </select>
       <div class="hidden items-center sm:flex">
-        <div class="cursor-pointer rounded-lg p-1 hover:bg-slate-100">
+        <div class="cursor-pointer rounded-lg p-1 hover:bg-gray-100">
           <IconInfo />
         </div>
       </div>

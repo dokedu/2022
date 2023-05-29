@@ -126,6 +126,7 @@ const navigation = computed(() => {
     { name: 'Projekte', icon: 'calendar', href: 'events' },
     { name: 'Kompetenzen', icon: 'box', href: 'competences' },
     { name: 'Berichte', icon: 'file-text', href: 'reports' },
+    { name: 'Label', icon: 'tag', href: 'labels' },
   ]
   if (['owner', 'admin'].includes(store.account.role)) {
     routes.push({ name: 'Admin', icon: 'settings', href: 'admin' })

@@ -24,7 +24,7 @@
 
     <div v-if="store.type === 'report'">
       <label for="tags" class="mb-1 block text-sm uppercase text-gray-500">Einträge mit mindestens diesem Label</label>
-      <DTagList v-model="store.filter_tags" :allow-create="false" label="Label suchen" placeholder="Tag hinzufügen">
+      <DTagList v-model="store.filter_tags" :allow-create="false" label="Label suchen" placeholder="Label hinzufügen">
       </DTagList>
     </div>
 

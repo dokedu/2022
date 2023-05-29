@@ -9,6 +9,7 @@ import reports from './reports'
 import supabase from '../api/supabase'
 import admin from './admin'
 import settings from './settings'
+import labels from './labels'
 
 const protectRoutes = (routes: any[], roles: string[] = []) => {
   return routes.map((route) => {
@@ -30,6 +31,7 @@ const routes = [
   ...event,
   ...competence,
   ...reports,
+  ...labels,
   ...settings,
   ...protectRoutes(admin, ['owner', 'admin']),
 ]

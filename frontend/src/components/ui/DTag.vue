@@ -5,7 +5,7 @@
       <slot></slot>
     </span>
     <button v-if="removable" type="button"
-      class="ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full text-blue-400 hover:bg-blue-200 hover:text-blue-500 focus:bg-blue-500 focus:text-white focus:outline-none"
+      class="ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full text-blue-400 hover:bg-blue-200 hover:text-blue-500 focus:bg-blue-600 focus:text-white focus:outline-none"
       @click="remove">
       <span class="sr-only">Entfernen</span>
       <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">

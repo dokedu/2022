@@ -1,27 +1,31 @@
 <template>
   <div class="mt-4" data-cy="reports">
-    <router-link v-for="report in reports" :key="report.id"
-      class="mb-2 grid grid-cols-4 items-center gap-2 rounded-lg border border-gray-300 p-3 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 md:grid-cols-4"
-      :to="{ name: 'report', params: { id: report.id } }" data-cy="report-link">
-      <span class="min-w-max">{{ report.student.first_name }} {{ report.student.last_name }}</span>
-      <div class="text-sm">{{ parseDateCalendar(report.from) }} - {{ parseDateCalendar(report.to) }}</div>
-      <div class="min-w-max">
-        <DReportStatus :status="report.status" />
-      </div>
-      <div class="col-span-1 min-w-max">{{ parseDate(report.created_at) }}</div>
-    </router-link>
+    <DTable :items="reports" :columns="tableColumns" @open="clickEntry">
+      <template #student="{ column }">
+        {{ `${column.first_name} ${column.last_name}` }}
+      </template>
+      <template #from="{ column }">
+        {{ parseDateCalendar(column) }}
+      </template>
+      <template #to="{ column }">
+        {{ parseDateCalendar(column) }}
+      </template>
+      <template #status="{ column }">
+        <DReportStatus :status="column" />
+      </template>
+      <template #created_at="{ column }">
+        {{ parseDate(column) }}
+      </template>
+    </DTable>
   </div>
 
-  <div v-show="!reports" class="text-gray-600">Hier gibt es noch keine Reports.</div>
-
-  <div v-show="reports?.length === 0"
+  <div v-show="!reports || reports?.length === 0"
     class="flex w-full items-center justify-center rounded-md border border-dashed p-8 text-gray-600">
     <div class="">Hier gibt es noch keine Berichte.</div>
   </div>
-
-  <!-- TODO: Pagination -->
 </template>
-<script lang="ts">
+
+<script lang="ts" setup>
 import { ref, watch } from 'vue'
 import supabase from '../../api/supabase'
 import { useSWRVS } from '../../api/helper'
@@ -30,42 +34,47 @@ import { parseDate, parseDateCalendar } from '../../helper/parseDate'
 import { getOrganisationId } from '../../helper/general'
 import DReportStatus from '../../components/reports/DReportStatus.vue'
 import { Report } from '../../../../backend/test/types'
+import DTable from '../../components/ui/DTable.vue'
+import { useRouter } from 'vue-router'
 
-export default {
-  components: { DReportStatus },
-  setup() {
-    const search = ref('')
+const router = useRouter()
 
-    const fetchReports = () => {
-      let fetcher = supabase
-        .from('reports')
-        .select('*, student:student_account_id!inner (first_name,last_name)')
-        .eq('student.organisation_id', getOrganisationId())
-        .limit(50)
-        .order('created_at', { ascending: false })
+const tableColumns = [
+  { name: 'Schüler', key: 'student', sortable: false },
+  { name: 'Von', key: 'from', sortable: false },
+  { name: 'Bis', key: 'to', sortable: false },
+  { name: 'Status', key: 'status', sortable: false },
+  { name: 'Erstellt am', key: 'created_at', sortable: false },
+]
 
-      if (search.value) {
-        //fetcher = fetcher.or(`student_account_id_fk.ilike.%${search.value}%,body.ilike.%${search.value}%`)
-      }
-
-      return fetcher
-    }
-
-    const { data: reports } = useSWRVS<(Report & { student: { first_name: string; last_name: string } })[]>(
-      `/reports`,
-      fetchReports(),
-    )
-
-    watch(search, async (s: string) => {
-      await mutate(`/reports`, await fetchReports().then((res) => res.data))
-    })
-
-    return {
-      search,
-      reports,
-      parseDateCalendar,
-      parseDate,
-    }
-  },
+function clickEntry(report: Report) {
+  router.push({ name: 'report', params: { id: report.id } })
 }
+
+const search = ref('')
+
+const fetchReports = () => {
+  let fetcher = supabase
+    .from('reports')
+    .select('*, student:student_account_id!inner (first_name,last_name)')
+    .eq('student.organisation_id', getOrganisationId())
+    .limit(50)
+    .order('created_at', { ascending: false })
+
+  if (search.value) {
+    //fetcher = fetcher.or(`student_account_id_fk.ilike.%${search.value}%,body.ilike.%${search.value}%`)
+  }
+
+  return fetcher
+}
+
+const { data: reports } = useSWRVS<(Report & { student: { first_name: string; last_name: string } })[]>(
+  `/reports`,
+  fetchReports(),
+)
+
+watch(search, async (s: string) => {
+  await mutate(`/reports`, await fetchReports().then((res) => res.data))
+})
+
 </script>

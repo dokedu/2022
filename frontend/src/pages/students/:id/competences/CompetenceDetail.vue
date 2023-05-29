@@ -1,9 +1,9 @@
 <template>
-    <div v-if="competence.entry_account_competences.length > 0">
+    <div v-if="eacs.length > 0">
         <div @click="$emit('toggle-eac', competence)">
             <div class="flex justify-between px-4 py-2 items-center border-b border-b-gray-100">
-                <div class="text-gray-500 text-sm">{{ competence.entry_account_competences.length }}
-                    {{ competence.entry_account_competences.length > 1 ? 'Einträge' : 'Eintrag' }}
+                <div class="text-gray-500 text-sm">{{ eacs.length }}
+                    {{ eacs.length > 1 ? 'Einträge' : 'Eintrag' }}
                 </div>
                 <button type="button" class="hover:bg-gray-200 rounded-md p-0.5">
                     <svg v-if="showEAC" width="28" height="28" viewBox="0 0 28 28" fill="none"
@@ -34,30 +34,51 @@
             </div>
         </div>
         <div v-show="showEAC" class="flex flex-col gap-2 py-1">
-            <div v-for="eac in competence.entry_account_competences" class="text-sm text-gray-500 px-4 py-1">
+            <div v-for="eac in eacs" class="text-sm text-gray-500 px-4 py-1">
                 <span class="font-semibold">Niveau {{ eac.level }}</span> wurde am <span class="font-semibold">{{
                     parseDate(eac.created_at) }}</span> von
                 <span class="font-semibold">
-                    {{ fullName(eac.entries.account) }}
+                    {{ eac.entries?.account ? fullName(eac.entries.account) : fullName(eac.account) }}
                 </span>
-                als
-                <router-link :to="{ name: 'entry', params: { id: eac.entry_id } }"
-                    class="font-semibold py-0.5 px-1 rounded-lg hover:bg-gray-200">Eintrag</router-link>
-                dokumentiert.
+                <span v-if="eac.entry_id">
+                    als
+                    <router-link :to="{ name: 'entry', params: { id: eac.entry_id } }"
+                        class="font-semibold py-0.5 px-1 rounded-lg hover:bg-gray-200">Eintrag</router-link>
+                    dokumentiert.
+                </span>
+                <span v-else>
+                    manuell hinterlegt.
+                </span>
+
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
 import { parseDate } from '../../../../helper/parseDate';
 
-defineProps({
+const props = defineProps({
     competence: Object,
     showEAC: Boolean
 });
 
+const eacs = computed(() => {
+    const _eacs = [...props?.competence?.entry_account_competences, ...props?.competence?.account_competences]
+
+    return sortEntryAccountCompetenceByCreatedAt(_eacs)
+})
+
 function fullName(account) {
     return `${account.first_name} ${account.last_name}`
+}
+
+function sortEntryAccountCompetenceByCreatedAt(eacs) {
+    return eacs.sort((a, b) => {
+        if (a.created_at < b.created_at) return 1
+        if (a.created_at > b.created_at) return -1
+        return 0
+    })
 }
 </script>

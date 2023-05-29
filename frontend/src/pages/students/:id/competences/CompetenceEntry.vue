@@ -3,10 +3,9 @@
         <div class="px-4 py-2 flex justify-between items-center border-b border-b-gray-100" @click="toggleEAC(competence)">
             <span>{{ competence.name }}</span>
             <div class="flex gap-2 items-center">
-                <div @click.stop="">
-                    <DCompetenceLevel :level="competence.entry_account_competences.length > 0 ?
-                        sortEntryAccountCompetenceByCreatedAt(competence.entry_account_competences)[0].level : 0"
-                        :editable="true" />
+                <div @click.stop="openModal">
+                    <DCompetenceLevel :level="eacs.length > 0 ?
+                        eacs[0].level : 0" :editable="true" />
                 </div>
                 <div v-if="false" class="hover:bg-gray-100 rounded-md p-2 flex items-center justify-center" @click.stop="">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -41,11 +40,34 @@
             </div>
         </div>
         <CompetenceDetail :competence="competence" @toggle-eac="toggleEAC" :showEAC="showEAC(competence)" />
+
+        <dialog ref="dialog"
+            class="absolute w-96 bg-white backdrop:bg-gray-400 backdrop:bg-opacity-50 rounded-xl shadow-md">
+            <p class="mb-2 text-gray-700 font-medium">Welches Niveau möchtest du für "<span
+                    class="text-gray-900 font-semibold">
+                    {{ competence.name }}
+                </span>" manuell hinterlegen?</p>
+            <form method="dialog" class="flex flex-col gap-4" @submit="closeDialog">
+                <select name="level" id="level" v-model="niveau"
+                    class="rounded-md focus:ring-0 border-2 border-gray-100 focus:border-blue-500">
+                    <option :value="0">Niveau 0</option>
+                    <option :value="1">Niveau 1</option>
+                    <option :value="2">Niveau 2</option>
+                    <option :value="3">Niveau 3</option>
+                </select>
+                <div class="flex justify-between gap-4">
+                    <button class="px-4 py-1 rounded-md bg-gray-100 hover:bg-gray-200 text-black" value="cancel"
+                        formmethod="dialog">Abbrechen</button>
+                    <button class="px-4 py-1 rounded-md bg-black hover:bg-gray-800 shadow text-white" type="submit"
+                        id="confirmBtn" value="submit">Speichern</button>
+                </div>
+            </form>
+        </dialog>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue';
+import { computed, defineProps, onMounted, ref } from 'vue';
 import CompetenceDetail from './CompetenceDetail.vue';
 import DCompetenceLevel from '../../../../components/DCompetenceLevel.vue';
 
@@ -54,12 +76,40 @@ const props = defineProps({
     showEACs: Array
 });
 
+const dialog = ref();
+const niveau = ref(0);
+
+function openModal() {
+    dialog.value.showModal();
+}
+
+const emit = defineEmits(['add-account-competence']);
+
+function closeDialog(event) {
+    if (event.submitter.value === 'submit') {
+        createAccountCompetence(niveau.value);
+    }
+}
+
+const eacs = computed(() => {
+    const _eacs = [...props?.competence?.entry_account_competences, ...props?.competence?.account_competences]
+
+    return sortEntryAccountCompetenceByCreatedAt(_eacs)
+})
+
 function toggleEAC(competence) {
     if (props.showEACs.includes(competence.id)) {
         props.showEACs.splice(props.showEACs.indexOf(competence.id), 1)
     } else {
         props.showEACs.push(competence.id)
     }
+}
+
+function createAccountCompetence(level: number) {
+    emit('add-account-competence', {
+        competenceId: props.competence.id,
+        level: level
+    });
 }
 
 function showEAC(competence) {

@@ -7,7 +7,8 @@
         <h2 class="text-lg font-semibold mb-2 text-gray-900 px-4">{{ competence?.data?.name }}</h2>
         <div class="rounded-lg shadow border border-gray-50 bg-white">
             <div v-for="competence in filterCompetences?.data" :key="competence.id" class="flex flex-col">
-                <CompetenceEntry :competence="competence" :showEACs="showEACs" />
+                <CompetenceEntry :competence="competence" :showEACs="showEACs"
+                    @add-account-competence="addAccountCompetence" />
             </div>
             <div v-if="filterCompetences?.data.length < 1" class="p-4 text-gray-500">
                 Hier gibt es keine weiteren Kompetenzen. Probiere es mit einer anderen Gruppe.
@@ -23,11 +24,28 @@ import { getOrganisationId } from "../../../../helper/general"
 import { computed, ref } from "vue";
 import CompetenceEntry from "./CompetenceEntry.vue";
 import { useSWRVX } from "../../../../api/helper";
+import { useStore } from "../../../../store/store";
 
 const route = useRoute()
 
 const showEACs = ref([])
 const search = ref("")
+
+async function addAccountCompetence(payload) {
+    console.log(payload)
+
+    await supabase
+        .from('account_competences')
+        .insert({
+            student_id: route.params.id,
+            account_id: useStore().account.id,
+            competence_id: payload.competenceId,
+            organisation_id: getOrganisationId(),
+            level: payload.level
+        })
+
+    await refresh()
+}
 
 const filterCompetences = computed(() => {
     if (search.value === "") return competences.value
@@ -55,7 +73,7 @@ function fetchCompetences() {
 
     return supabase
         .from('competences')
-        .select('*, entry_account_competences(*, entries(*, account:account_id(*)))')
+        .select('*, entry_account_competences(*, entries(*, account:account_id(*))), account_competences(*, account:account_id(*))')
         .eq("organisation_id", getOrganisationId())
         .eq("competence_id", route.params.competenceId)
         .is("deleted_at", null)
@@ -63,6 +81,6 @@ function fetchCompetences() {
         .neq("competence_type", "subject")
 }
 
-const { data: competences } = useSWRVX(() => `/students/${route.params.id}/competences/${route.params.competenceId}`, fetchCompetences)
+const { data: competences, mutate: refresh } = useSWRVX(() => `/students/${route.params.id}/competences/${route.params.competenceId}`, fetchCompetences)
 
 </script>

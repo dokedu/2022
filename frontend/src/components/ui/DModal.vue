@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits, onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { XIcon } from '@heroicons/vue/outline'
 

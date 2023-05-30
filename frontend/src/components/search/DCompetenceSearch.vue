@@ -46,7 +46,7 @@
 
 <script lang="ts" setup>
 import DModal from '../ui/DModal.vue'
-import { defineEmits, onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import supabase from '../../api/supabase'
 import useSWRV, { mutate } from 'swrv'
 import DCompetence from '../DCompetence.vue'

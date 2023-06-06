@@ -199,7 +199,9 @@ const onDelete = async () => {
 
 async function recover(student: any) {
   // set deleted_at to null
+  open.value = null
   await supabase.from('accounts').update({ deleted_at: null }).eq("id", student.id)
+  await mutate(`/admin/students`, fetchAccounts())
 }
 
 const onCreate = async () => {

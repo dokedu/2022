@@ -45,7 +45,7 @@
       <UsersForm v-model="userData" role="student"></UsersForm>
       <div class="mt-2 grid grid-cols-2 gap-5">
         <DButton v-if="!userData?.deleted_at" look="danger-light" class="mt-5" @click="onDelete">Archivieren</DButton>
-        <DButton v-if="userData?.deleted_at === null" look="danger-light" class="mt-5" @click="recover(userData)">
+        <DButton v-else look="secondary" class="mt-5" @click="recover(userData)">
           Wiederherstellen</DButton>
         <DButton look="primary" class="mt-5 w-full" @click="onSave">Speichern</DButton>
       </div>
